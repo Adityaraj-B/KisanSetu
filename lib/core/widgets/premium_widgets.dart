@@ -127,7 +127,6 @@ class _AnimatedPremiumCardState extends State<AnimatedPremiumCard>
     with SingleTickerProviderStateMixin {
   late AnimationController _controller;
   late Animation<double> _scaleAnimation;
-  late Animation<double> _elevationAnimation;
   bool _isHovered = false;
 
   @override
@@ -139,9 +138,6 @@ class _AnimatedPremiumCardState extends State<AnimatedPremiumCard>
     );
 
     _scaleAnimation = Tween<double>(begin: 1.0, end: 0.98).animate(
-      CurvedAnimation(parent: _controller, curve: Curves.easeInOut),
-    );
-    _elevationAnimation = Tween<double>(begin: 4, end: 8).animate(
       CurvedAnimation(parent: _controller, curve: Curves.easeInOut),
     );
   }

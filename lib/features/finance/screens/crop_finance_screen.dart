@@ -4,6 +4,9 @@ import 'package:provider/provider.dart';
 
 import '../../../core/providers/farmer_provider.dart';
 import '../data/crop_finance_data.dart';
+import 'loan_detail_screen.dart';
+import 'insurance_detail_screen.dart';
+import 'subsidy_detail_screen.dart';
 
 class CropFinanceScreen extends StatefulWidget {
   const CropFinanceScreen({super.key});
@@ -391,11 +394,10 @@ class _LoanCard extends StatelessWidget {
                   child: ElevatedButton(
                     onPressed: () {
                       HapticFeedback.lightImpact();
-                      ScaffoldMessenger.of(context).showSnackBar(
-                        SnackBar(
-                          content: Text(langCode == 'hi' ? 'आवेदन लिंक जल्द आ रहा है' : (langCode == 'mr' ? 'अर्ज दुवा लवकरच येत आहे' : 'Application link coming soon')),
-                          behavior: SnackBarBehavior.floating,
-                          shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(12)),
+                      Navigator.push(
+                        context,
+                        MaterialPageRoute(
+                          builder: (_) => LoanDetailScreen(loan: loan, langCode: langCode),
                         ),
                       );
                     },
@@ -617,11 +619,10 @@ class _InsuranceCard extends StatelessWidget {
                   child: ElevatedButton(
                     onPressed: () {
                       HapticFeedback.lightImpact();
-                      ScaffoldMessenger.of(context).showSnackBar(
-                        SnackBar(
-                          content: Text(langCode == 'hi' ? 'आवेदन लिंक जल्द आ रहा है' : (langCode == 'mr' ? 'अर्ज दुवा लवकरच येत आहे' : 'Application link coming soon')),
-                          behavior: SnackBarBehavior.floating,
-                          shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(12)),
+                      Navigator.push(
+                        context,
+                        MaterialPageRoute(
+                          builder: (_) => InsuranceDetailScreen(insurance: insurance, langCode: langCode),
                         ),
                       );
                     },
@@ -814,11 +815,10 @@ class _SubsidyCard extends StatelessWidget {
                   child: ElevatedButton(
                     onPressed: () {
                       HapticFeedback.lightImpact();
-                      ScaffoldMessenger.of(context).showSnackBar(
-                        SnackBar(
-                          content: Text(langCode == 'hi' ? 'आवेदन लिंक जल्द आ रहा है' : (langCode == 'mr' ? 'अर्ज दुवा लवकरच येत आहे' : 'Application link coming soon')),
-                          behavior: SnackBarBehavior.floating,
-                          shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(12)),
+                      Navigator.push(
+                        context,
+                        MaterialPageRoute(
+                          builder: (_) => SubsidyDetailScreen(subsidy: subsidy, langCode: langCode),
                         ),
                       );
                     },

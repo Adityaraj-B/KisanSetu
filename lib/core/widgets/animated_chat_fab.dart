@@ -1,7 +1,7 @@
 import 'dart:ui';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
-import '../../screens/chat_screen.dart';
+import '../../features/chat/screens/chat_screen.dart';
 
 /// Animated Floating Chat Button - Premium Design
 /// Shows chatbot icon when collapsed, expands to show name on hover/interaction

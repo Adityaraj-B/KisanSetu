@@ -15,7 +15,6 @@ class _AuthColors {
   static const error = Color(0xFFE53935);
   static const textPrimary = Color(0xFF1C1B1F);
   static const textSecondary = Color(0xFF6B6B6B);
-  static const background = Color(0xFFF5F7F6);
 }
 
 class AuthSignUpScreen extends StatefulWidget {

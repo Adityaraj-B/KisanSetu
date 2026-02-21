@@ -3,7 +3,7 @@ import 'package:shared_preferences/shared_preferences.dart';
 import 'dart:convert';
 import '../../data/models/farmer_profile.dart';
 import '../../data/models/scheme_model.dart';
-import '../services/eligibility_service.dart';
+import '../../data/schemes_data.dart';
 
 /// Farmer Provider - State management for farmer profile
 /// Provides reactive updates when farmer data changes with persistence
@@ -140,7 +140,16 @@ class FarmerProvider extends ChangeNotifier {
 
   /// Get eligible schemes based on current profile
   List<Scheme> get eligibleSchemes {
-    return EligibilityService.instance.getEligibleSchemes(_profile);
+    if (!_profile.hasState) return SchemesData.allSchemes.toList();
+    return SchemesData.allSchemes.where((scheme) {
+      final stateOk = scheme.supportedStates.contains('All') ||
+          scheme.supportedStates.contains(_profile.selectedState);
+      final cropOk = scheme.supportedCrops.contains('All') ||
+          _profile.selectedCrops.any((c) => scheme.supportedCrops.contains(c));
+      final landOk = (scheme.minLandAcres == null || _profile.landSizeAcres >= scheme.minLandAcres!) &&
+          (scheme.maxLandAcres == null || _profile.landSizeAcres <= scheme.maxLandAcres!);
+      return stateOk && cropOk && landOk;
+    }).toList();
   }
 
   /// Get count of eligible schemes

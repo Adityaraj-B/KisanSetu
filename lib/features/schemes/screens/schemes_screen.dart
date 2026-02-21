@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:flutter/services.dart';
 import 'package:provider/provider.dart';
 
 import '../../../core/constants/app_constants.dart';
@@ -221,7 +222,13 @@ class _SchemesScreenState extends State<SchemesScreen> with SingleTickerProvider
                     const SizedBox(height: AppConstants.spacingL),
                     _buildDeadlineSection(scheme, languageCode),
                     const SizedBox(height: AppConstants.spacingXL),
-                    _buildApplyButton(l10n, scheme.url),
+                    Row(
+                      children: [
+                        Expanded(child: _buildApplyButton(l10n, scheme.url)),
+                        const SizedBox(width: 12),
+                        _buildShareButton(l10n, scheme, languageCode),
+                      ],
+                    ),
                   ],
                 ),
               ),
@@ -429,6 +436,25 @@ class _SchemesScreenState extends State<SchemesScreen> with SingleTickerProvider
     );
   }
 
+  Widget _buildShareButton(AppLocalizations l10n, JsonScheme scheme, String languageCode) {
+    return ElevatedButton.icon(
+      onPressed: () {
+        Navigator.pop(context);
+        _shareScheme(scheme, languageCode, l10n);
+      },
+      icon: const Icon(Icons.share_rounded),
+      label: Text(l10n.text('share_scheme')),
+      style: ElevatedButton.styleFrom(
+        backgroundColor: const Color(0xFF25D366), // WhatsApp green
+        foregroundColor: Colors.white,
+        padding: const EdgeInsets.symmetric(
+            vertical: AppConstants.spacingM, horizontal: AppConstants.spacingM),
+        shape: RoundedRectangleBorder(
+            borderRadius: BorderRadius.circular(AppConstants.radiusM)),
+      ),
+    );
+  }
+
   @override
   Widget build(BuildContext context) {
     final l10n = AppLocalizations.of(context)!;
@@ -570,9 +596,13 @@ class _SchemesScreenState extends State<SchemesScreen> with SingleTickerProvider
               ),
             ),
             if (_isLoading)
-              const SliverFillRemaining(
-                child: Center(
-                  child: CircularProgressIndicator(color: AppColors.primaryGreen),
+              SliverPadding(
+                padding: const EdgeInsets.only(bottom: AppConstants.spacingXL),
+                sliver: SliverList(
+                  delegate: SliverChildBuilderDelegate(
+                    (context, index) => _buildSkeletonCard(),
+                    childCount: 6,
+                  ),
                 ),
               )
             else
@@ -607,7 +637,174 @@ class _SchemesScreenState extends State<SchemesScreen> with SingleTickerProvider
     );
   }
 
+  // ── Skeleton loader ──────────────────────────────────────────────────────────
+  Widget _buildSkeletonCard() {
+    return Container(
+      margin: const EdgeInsets.symmetric(
+          horizontal: AppConstants.spacingM, vertical: AppConstants.spacingS),
+      decoration: BoxDecoration(
+        color: Colors.white,
+        borderRadius: BorderRadius.circular(AppConstants.radiusM),
+        boxShadow: [
+          BoxShadow(color: AppColors.shadowLight, blurRadius: 8, offset: const Offset(0, 2))
+        ],
+      ),
+      child: Padding(
+        padding: const EdgeInsets.all(AppConstants.spacingM),
+        child: Row(
+          children: [
+            _SkeletonBox(width: 52, height: 52, radius: 12),
+            const SizedBox(width: AppConstants.spacingM),
+            Expanded(
+              child: Column(
+                crossAxisAlignment: CrossAxisAlignment.start,
+                children: [
+                  _SkeletonBox(width: double.infinity, height: 14, radius: 6),
+                  const SizedBox(height: 8),
+                  _SkeletonBox(width: 180, height: 11, radius: 5),
+                  const SizedBox(height: 8),
+                  _SkeletonBox(width: 80, height: 18, radius: 9),
+                ],
+              ),
+            ),
+            const SizedBox(width: 8),
+            _SkeletonBox(width: 20, height: 20, radius: 4),
+          ],
+        ),
+      ),
+    );
+  }
+
+  // ── Deadline helpers ─────────────────────────────────────────────────────────
+  /// Returns null for "ongoing/rolling" deadlines (e.g. "Rolling", "Ongoing", "N/A", empty)
+  /// Returns a positive int for days left, 0 for today, negative for passed
+  int? _parseDeadlineDays(String deadline) {
+    if (deadline.isEmpty) return null;
+    final lower = deadline.toLowerCase().trim();
+    if (lower == 'rolling' ||
+        lower == 'ongoing' ||
+        lower == 'n/a' ||
+        lower == 'year-round' ||
+        lower == 'continuous' ||
+        lower.contains('rolling') ||
+        lower.contains('ongoing')) return null;
+
+    // Try to parse a date from common formats like "March 31, 2026" or "31/03/2026"
+    final now = DateTime.now();
+    final today = DateTime(now.year, now.month, now.day);
+
+    // Pattern: "Month DD, YYYY"
+    final monthNames = {
+      'january': 1, 'february': 2, 'march': 3, 'april': 4,
+      'may': 5, 'june': 6, 'july': 7, 'august': 8,
+      'september': 9, 'october': 10, 'november': 11, 'december': 12,
+    };
+    for (final entry in monthNames.entries) {
+      if (lower.contains(entry.key)) {
+        final numbers = RegExp(r'\d+').allMatches(deadline).map((m) => int.parse(m.group(0)!)).toList();
+        if (numbers.length >= 2) {
+          int year = numbers.length >= 3 ? numbers[2] : now.year;
+          if (year < 100) year += 2000;
+          final day = numbers[0] <= 31 ? numbers[0] : numbers[1];
+          try {
+            final date = DateTime(year, entry.value, day);
+            return date.difference(today).inDays;
+          } catch (_) {}
+        }
+      }
+    }
+    // Pattern: DD/MM/YYYY or DD-MM-YYYY
+    final slashMatch = RegExp(r'(\d{1,2})[\/\-](\d{1,2})[\/\-](\d{2,4})').firstMatch(deadline);
+    if (slashMatch != null) {
+      int y = int.parse(slashMatch.group(3)!);
+      if (y < 100) y += 2000;
+      try {
+        final date = DateTime(y, int.parse(slashMatch.group(2)!), int.parse(slashMatch.group(1)!));
+        return date.difference(today).inDays;
+      } catch (_) {}
+    }
+    return null;
+  }
+
+  Widget? _buildDeadlineBadge(String deadline, AppLocalizations l10n) {
+    final days = _parseDeadlineDays(deadline);
+    if (days == null) return null; // rolling/ongoing — no badge
+
+    if (days < 0) {
+      // Passed
+      return _DeadlineBadge(
+        label: l10n.text('deadline_passed'),
+        color: Colors.grey,
+        icon: Icons.lock_outline_rounded,
+      );
+    } else if (days == 0) {
+      return _DeadlineBadge(
+        label: l10n.text('deadline_today'),
+        color: const Color(0xFFE53935),
+        icon: Icons.alarm_rounded,
+        pulsing: true,
+      );
+    } else if (days <= 7) {
+      return _DeadlineBadge(
+        label: '$days ${days == 1 ? l10n.text('day_left') : l10n.text('days_left')}',
+        color: const Color(0xFFFF5722),
+        icon: Icons.hourglass_bottom_rounded,
+        pulsing: true,
+      );
+    } else if (days <= 30) {
+      return _DeadlineBadge(
+        label: '$days ${l10n.text('days_left')}',
+        color: const Color(0xFFFF9800),
+        icon: Icons.schedule_rounded,
+      );
+    }
+    // More than 30 days — subtle badge
+    return _DeadlineBadge(
+      label: '$days ${l10n.text('days_left')}',
+      color: AppColors.primaryGreen,
+      icon: Icons.event_available_rounded,
+    );
+  }
+
+  // ── Share functionality ──────────────────────────────────────────────────────
+  void _shareScheme(JsonScheme scheme, String languageCode, AppLocalizations l10n) {
+    HapticFeedback.lightImpact();
+    final name = scheme.getLocalizedName(languageCode);
+    final benefit = scheme.getLocalizedBenefit(languageCode);
+    final deadline = scheme.getLocalizedDeadline(languageCode);
+    final url = scheme.url;
+
+    final text = languageCode == 'hi'
+        ? '🌾 *$name*\n\n💰 लाभ: $benefit\n\n📅 आवेदन की तिथि: $deadline\n\n${url.isNotEmpty ? '🔗 अधिक जानकारी: $url\n\n' : ''}'
+            '📲 किसान सेतु ऐप से'
+        : languageCode == 'mr'
+        ? '🌾 *$name*\n\n💰 फायदा: $benefit\n\n📅 अर्जाची तारीख: $deadline\n\n${url.isNotEmpty ? '🔗 अधिक माहिती: $url\n\n' : ''}'
+            '📲 किसान सेतु अॅपद्वारे'
+        : '🌾 *$name*\n\n💰 Benefit: $benefit\n\n📅 Deadline: $deadline\n\n${url.isNotEmpty ? '🔗 More info: $url\n\n' : ''}'
+            '📲 Via Kisan Setu App';
+
+    Clipboard.setData(ClipboardData(text: text));
+    ScaffoldMessenger.of(context).showSnackBar(
+      SnackBar(
+        content: Row(
+          children: [
+            const Icon(Icons.check_circle_rounded, color: Colors.white, size: 18),
+            const SizedBox(width: 10),
+            Expanded(child: Text(l10n.text('scheme_shared'))),
+          ],
+        ),
+        backgroundColor: AppColors.primaryGreen,
+        behavior: SnackBarBehavior.floating,
+        shape: RoundedRectangleBorder(
+            borderRadius: BorderRadius.circular(AppConstants.radiusM)),
+        duration: const Duration(seconds: 2),
+      ),
+    );
+  }
+
   Widget _buildSchemeCard(JsonScheme scheme, String languageCode, AppLocalizations l10n) {
+    final deadlineBadge = _buildDeadlineBadge(scheme.getLocalizedDeadline(languageCode), l10n);
+
     return Container(
       margin: const EdgeInsets.symmetric(horizontal: AppConstants.spacingM, vertical: AppConstants.spacingS),
       decoration: BoxDecoration(
@@ -622,50 +819,81 @@ class _SchemesScreenState extends State<SchemesScreen> with SingleTickerProvider
           onTap: () => _onSchemeCardTap(scheme, l10n),
           child: Padding(
             padding: const EdgeInsets.all(AppConstants.spacingM),
-            child: Row(
+            child: Column(
+              crossAxisAlignment: CrossAxisAlignment.start,
               children: [
-                Container(
-                  padding: const EdgeInsets.all(12),
-                  decoration: BoxDecoration(
-                    color: AppColors.primaryGreenOverlay10,
-                    borderRadius: BorderRadius.circular(12),
-                  ),
-                  child: Icon(_getIconForScheme(scheme.icon), color: AppColors.primaryGreen, size: 28),
-                ),
-                const SizedBox(width: AppConstants.spacingM),
-                Expanded(
-                  child: Column(
-                    crossAxisAlignment: CrossAxisAlignment.start,
-                    children: [
-                      Text(
-                        scheme.getLocalizedName(languageCode),
-                        style: TextStyle(fontSize: 16, fontWeight: FontWeight.w600, color: AppColors.textPrimary),
-                        maxLines: 1,
-                        overflow: TextOverflow.ellipsis,
+                Row(
+                  children: [
+                    Container(
+                      padding: const EdgeInsets.all(12),
+                      decoration: BoxDecoration(
+                        color: AppColors.primaryGreenOverlay10,
+                        borderRadius: BorderRadius.circular(12),
                       ),
-                      const SizedBox(height: 4),
-                      Text(
-                        scheme.getLocalizedBenefit(languageCode),
-                        style: TextStyle(fontSize: 12, color: AppColors.textSecondary),
-                        maxLines: 1,
-                        overflow: TextOverflow.ellipsis,
+                      child: Icon(_getIconForScheme(scheme.icon),
+                          color: AppColors.primaryGreen, size: 28),
+                    ),
+                    const SizedBox(width: AppConstants.spacingM),
+                    Expanded(
+                      child: Column(
+                        crossAxisAlignment: CrossAxisAlignment.start,
+                        children: [
+                          Text(
+                            scheme.getLocalizedName(languageCode),
+                            style: TextStyle(
+                                fontSize: 16,
+                                fontWeight: FontWeight.w600,
+                                color: AppColors.textPrimary),
+                            maxLines: 1,
+                            overflow: TextOverflow.ellipsis,
+                          ),
+                          const SizedBox(height: 4),
+                          Text(
+                            scheme.getLocalizedBenefit(languageCode),
+                            style: TextStyle(fontSize: 12, color: AppColors.textSecondary),
+                            maxLines: 1,
+                            overflow: TextOverflow.ellipsis,
+                          ),
+                          const SizedBox(height: 4),
+                          Container(
+                            padding: const EdgeInsets.symmetric(horizontal: 8, vertical: 2),
+                            decoration: BoxDecoration(
+                              color: AppColors.lightGray,
+                              borderRadius: BorderRadius.circular(12),
+                            ),
+                            child: Text(
+                              scheme.getLocalizedCategory(languageCode),
+                              style: TextStyle(fontSize: 11, color: AppColors.textSecondary),
+                            ),
+                          ),
+                        ],
                       ),
-                      const SizedBox(height: 4),
-                      Container(
-                        padding: const EdgeInsets.symmetric(horizontal: 8, vertical: 2),
+                    ),
+                    // Share button
+                    GestureDetector(
+                      onTap: () => _shareScheme(scheme, languageCode, l10n),
+                      child: Container(
+                        padding: const EdgeInsets.all(8),
                         decoration: BoxDecoration(
-                          color: AppColors.lightGray,
-                          borderRadius: BorderRadius.circular(12),
+                          color: AppColors.primaryGreenOverlay10,
+                          borderRadius: BorderRadius.circular(10),
                         ),
-                        child: Text(
-                          scheme.getLocalizedCategory(languageCode),
-                          style: TextStyle(fontSize: 11, color: AppColors.textSecondary),
-                        ),
+                        child: Icon(Icons.share_rounded,
+                            color: AppColors.primaryGreen, size: 18),
                       ),
-                    ],
-                  ),
+                    ),
+                    const SizedBox(width: 8),
+                    Icon(Icons.chevron_right, color: AppColors.textSecondary),
+                  ],
                 ),
-                Icon(Icons.chevron_right, color: AppColors.textSecondary),
+                // Deadline badge row
+                if (deadlineBadge != null) ...[
+                  const SizedBox(height: 10),
+                  Row(children: [
+                    const SizedBox(width: 4),
+                    deadlineBadge,
+                  ]),
+                ],
               ],
             ),
           ),
@@ -715,6 +943,145 @@ class _SchemesScreenState extends State<SchemesScreen> with SingleTickerProvider
           ],
         ),
       ),
+    );
+  }
+}
+
+// ── Skeleton shimmer box ──────────────────────────────────────────────────────
+
+class _SkeletonBox extends StatefulWidget {
+  final double width;
+  final double height;
+  final double radius;
+
+  const _SkeletonBox({
+    required this.width,
+    required this.height,
+    required this.radius,
+  });
+
+  @override
+  State<_SkeletonBox> createState() => _SkeletonBoxState();
+}
+
+class _SkeletonBoxState extends State<_SkeletonBox>
+    with SingleTickerProviderStateMixin {
+  late AnimationController _ctrl;
+  late Animation<double> _anim;
+
+  @override
+  void initState() {
+    super.initState();
+    _ctrl = AnimationController(
+      vsync: this,
+      duration: const Duration(milliseconds: 1200),
+    )..repeat(reverse: true);
+    _anim = CurvedAnimation(parent: _ctrl, curve: Curves.easeInOut);
+  }
+
+  @override
+  void dispose() {
+    _ctrl.dispose();
+    super.dispose();
+  }
+
+  @override
+  Widget build(BuildContext context) {
+    return AnimatedBuilder(
+      animation: _anim,
+      builder: (context, _) {
+        return Container(
+          width: widget.width,
+          height: widget.height,
+          decoration: BoxDecoration(
+            borderRadius: BorderRadius.circular(widget.radius),
+            color: Color.lerp(
+              const Color(0xFFE0E0E0),
+              const Color(0xFFF5F5F5),
+              _anim.value,
+            ),
+          ),
+        );
+      },
+    );
+  }
+}
+
+// ── Deadline badge widget ─────────────────────────────────────────────────────
+
+class _DeadlineBadge extends StatefulWidget {
+  final String label;
+  final Color color;
+  final IconData icon;
+  final bool pulsing;
+
+  const _DeadlineBadge({
+    required this.label,
+    required this.color,
+    required this.icon,
+    this.pulsing = false,
+  });
+
+  @override
+  State<_DeadlineBadge> createState() => _DeadlineBadgeState();
+}
+
+class _DeadlineBadgeState extends State<_DeadlineBadge>
+    with SingleTickerProviderStateMixin {
+  late AnimationController _ctrl;
+  late Animation<double> _anim;
+
+  @override
+  void initState() {
+    super.initState();
+    _ctrl = AnimationController(
+      vsync: this,
+      duration: const Duration(milliseconds: 900),
+    );
+    _anim = CurvedAnimation(parent: _ctrl, curve: Curves.easeInOut);
+    if (widget.pulsing) _ctrl.repeat(reverse: true);
+  }
+
+  @override
+  void dispose() {
+    _ctrl.dispose();
+    super.dispose();
+  }
+
+  @override
+  Widget build(BuildContext context) {
+    return AnimatedBuilder(
+      animation: _anim,
+      builder: (context, _) {
+        final opacity = widget.pulsing ? (0.75 + _anim.value * 0.25) : 1.0;
+        return Opacity(
+          opacity: opacity,
+          child: Container(
+            padding: const EdgeInsets.symmetric(horizontal: 10, vertical: 4),
+            decoration: BoxDecoration(
+              color: widget.color.withValues(alpha: 0.12),
+              borderRadius: BorderRadius.circular(20),
+              border: Border.all(color: widget.color.withValues(alpha: 0.4)),
+            ),
+            child: Row(
+              mainAxisSize: MainAxisSize.min,
+              children: [
+                Icon(widget.icon, size: 12, color: widget.color),
+                const SizedBox(width: 5),
+                Text(
+                  widget.label,
+                  style: TextStyle(
+                    fontSize: 11,
+                    fontWeight: FontWeight.w700,
+                    color: widget.color,
+                    letterSpacing: 0.2,
+                  ),
+                ),
+              ],
+            ),
+          ),
+        );
+      },
     );
   }
 }

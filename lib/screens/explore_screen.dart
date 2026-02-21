@@ -5,6 +5,7 @@ import '../core/utils/navigation_helper.dart';
 import '../features/schemes/screens/schemes_screen.dart';
 import '../features/insurance/screens/insurance_screen.dart';
 import '../features/weather/screens/weather_screen.dart';
+import '../features/finance/screens/kcc_screen.dart';
 import '../data/models/enhanced_farmer_profile.dart';
 
 class ExploreScreen extends StatefulWidget {
@@ -357,7 +358,7 @@ class _ExploreScreenState extends State<ExploreScreen>
                   subtitle: l10n.text('kcc_featured_sub'),
                   icon: Icons.credit_card_rounded,
                   gradientColors: const [Color(0xFFFF8F00), Color(0xFFFFB300)],
-                  onTap: () {},
+                  onTap: () => NavigationHelper.push(context, const KccScreen()),
                 ),
               ],
             ),

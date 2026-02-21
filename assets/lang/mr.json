@@ -428,7 +428,33 @@
   "pmfby_featured_sub": "पीक विमा",
   "kcc_featured": "केसीसी",
   "kcc_featured_sub": "क्रेडिट कार्ड",
+  "kcc": "KCC कार्ड",
 
-  "app_info": "अॅप माहिती"
+  "app_info": "अॅप माहिती",
+
+  "share_scheme": "योजना शेअर करा",
+  "share_scheme_whatsapp": "WhatsApp वर शेअर करा",
+  "scheme_shared": "योजनेची माहिती कॉपी झाली!",
+  "days_left": "दिवस बाकी",
+  "day_left": "दिवस बाकी",
+  "deadline_today": "आज शेवटचा दिवस!",
+  "deadline_passed": "बंद",
+  "deadline_urgent": "तातडीचे",
+  "apply_before": "आधी अर्ज करा",
+  "ongoing": "सुरू",
+
+  "spray_advisory": "फवारणी सल्ला",
+  "spray_good": "फवारणीसाठी चांगला दिवस",
+  "spray_avoid": "फवारणी टाळा",
+  "spray_caution": "सावधानीने फवारणी करा",
+  "spray_good_desc": "कमी वारा व योग्य आर्द्रता — कीटकनाशक/खत फवारणीसाठी उत्तम.",
+  "spray_avoid_desc": "जोरदार वारा किंवा पाऊस शक्य — आज फवारणी टाळा.",
+  "spray_caution_desc": "परिस्थिती सीमांत आहे — फक्त सकाळच्या वेळी फवारणी करा.",
+
+  "profile_progress": "प्रोफाइल प्रगती",
+  "profile_progress_desc": "अधिक योजना मिळवण्यासाठी प्रोफाइल पूर्ण करा",
+  "complete_now": "आता पूर्ण करा",
+  "profile_pct_complete": "% पूर्ण",
+  "unlock_more_schemes": "अधिक पात्र योजना उघडा"
 }
 

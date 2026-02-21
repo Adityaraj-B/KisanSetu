@@ -2,7 +2,6 @@ import 'dart:ui';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:google_fonts/google_fonts.dart';
-import 'app_colors.dart';
 
 /// Premium Material 3 Theme with glassmorphism and modern aesthetics
 class PremiumTheme {

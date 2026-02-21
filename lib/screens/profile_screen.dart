@@ -11,8 +11,8 @@ import '../core/providers/auth_provider.dart';
 import '../core/widgets/premium_widgets.dart';
 import '../core/theme/premium_theme.dart';
 import '../core/utils/navigation_helper.dart';
-import '../core/services/district_service.dart';
 import '../data/models/district_model.dart';
+import '../data/fallback_data.dart';
 import '../main.dart';
 
 class _LiquidGlassCard extends StatelessWidget {
@@ -1558,7 +1558,9 @@ class _DistrictSelectionContentState extends State<_DistrictSelectionContent> {
     }
 
     try {
-      final districts = await DistrictService.instance.getDistrictsForState(stateName);
+      // Use FallbackData since DistrictService has been removed
+      final stateId = stateName.toLowerCase().replaceAll(' ', '_');
+      final districts = await FallbackData.getDistrictsFromJson(stateId);
       if (mounted) {
         setState(() {
           _districts = districts;

@@ -12,6 +12,8 @@ import '../core/voice/speech_service.dart';
 import '../core/voice/tts_service.dart';
 import '../features/schemes/screens/schemes_screen.dart';
 import '../features/insurance/screens/insurance_screen.dart';
+import '../features/finance/screens/crop_finance_screen.dart';
+import '../features/weather/screens/weather_screen.dart';
 
 /// Chat Message Model - Represents a single message in chat
 class ChatMessage {
@@ -292,6 +294,25 @@ class _ChatScreenState extends State<ChatScreen> {
     );
   }
 
+  void _navigateToFinance() {
+    Navigator.push(
+      context,
+      MaterialPageRoute(builder: (context) => const CropFinanceScreen()),
+    );
+  }
+
+  void _navigateToWeather() {
+    Navigator.push(
+      context,
+      MaterialPageRoute(builder: (context) => const WeatherScreen()),
+    );
+  }
+
+  void _navigateToProfile() {
+    // Pop back and navigate to profile - use index 4 in bottom nav
+    Navigator.pop(context);
+  }
+
   @override
   Widget build(BuildContext context) {
     final l10n = AppLocalizations.of(context)!;
@@ -478,6 +499,7 @@ class _ChatScreenState extends State<ChatScreen> {
 
   Widget _buildActionButtons(ChatbotResponse response, AppLocalizations l10n) {
     final buttons = <Widget>[];
+    final languageCode = context.read<LanguageProvider>().locale.languageCode;
 
     if (response.showSchemesButton) {
       buttons.add(
@@ -495,6 +517,36 @@ class _ChatScreenState extends State<ChatScreen> {
           icon: Icons.security,
           label: l10n.chatbotViewInsurance,
           onPressed: _navigateToInsurance,
+        ),
+      );
+    }
+
+    if (response.showFinanceButton) {
+      buttons.add(
+        _buildActionButton(
+          icon: Icons.account_balance,
+          label: languageCode == 'hi' ? 'वित्त देखें' : (languageCode == 'mr' ? 'वित्त पहा' : 'View Finance'),
+          onPressed: _navigateToFinance,
+        ),
+      );
+    }
+
+    if (response.showWeatherButton) {
+      buttons.add(
+        _buildActionButton(
+          icon: Icons.wb_sunny,
+          label: languageCode == 'hi' ? 'मौसम देखें' : (languageCode == 'mr' ? 'हवामान पहा' : 'View Weather'),
+          onPressed: _navigateToWeather,
+        ),
+      );
+    }
+
+    if (response.showProfileButton) {
+      buttons.add(
+        _buildActionButton(
+          icon: Icons.person,
+          label: languageCode == 'hi' ? 'प्रोफ़ाइल संपादित करें' : (languageCode == 'mr' ? 'प्रोफाइल संपादित करा' : 'Edit Profile'),
+          onPressed: _navigateToProfile,
         ),
       );
     }

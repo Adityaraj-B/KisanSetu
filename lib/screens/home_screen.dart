@@ -14,8 +14,10 @@ import '../core/theme/premium_theme.dart';
 import '../core/services/schemes_service.dart';
 import '../core/constants/app_constants.dart';
 import '../features/finance/screens/crop_finance_screen.dart';
+import '../features/finance/screens/kcc_screen.dart';
 import '../features/schemes/screens/schemes_screen.dart';
 import '../features/weather/screens/weather_screen.dart';
+import 'profile_screen.dart';
 
 // ─── Liquid Glass Card ───────────────────────────────────────────────────────
 
@@ -26,7 +28,6 @@ class _LiquidGlassCard extends StatelessWidget {
   final double blurSigma;
   final double whiteness;
   final double borderOpacity;
-  final List<Color>? gradientColors;
   final List<BoxShadow>? shadows;
 
   const _LiquidGlassCard({
@@ -36,7 +37,6 @@ class _LiquidGlassCard extends StatelessWidget {
     this.blurSigma = 24,
     this.whiteness = 0.12,
     this.borderOpacity = 0.45,
-    this.gradientColors,
     this.shadows,
   });
 
@@ -49,13 +49,7 @@ class _LiquidGlassCard extends StatelessWidget {
         child: Container(
           padding: padding,
           decoration: BoxDecoration(
-            gradient: gradientColors != null
-                ? LinearGradient(
-              begin: Alignment.topLeft,
-              end: Alignment.bottomRight,
-              colors: gradientColors!,
-            )
-                : LinearGradient(
+            gradient: LinearGradient(
               begin: Alignment.topLeft,
               end: Alignment.bottomRight,
               colors: [
@@ -442,6 +436,7 @@ class _HomeScreenState extends State<HomeScreen> with TickerProviderStateMixin {
                     position: _contentSlide,
                     child: Column(children: [
                       _buildStatsSection(l10n),
+                      _buildProfileProgressNudge(l10n),
                       _buildQuickActionsSection(l10n),
                       _buildServicesGrid(l10n),
                       _buildInsightsSection(l10n),
@@ -1148,10 +1143,10 @@ class _HomeScreenState extends State<HomeScreen> with TickerProviderStateMixin {
               StaggeredAnimation(
                 index: 7,
                 child: _ServiceItem(
-                  icon: Icons.store_rounded,
-                  label: l10n.text('market'),
+                  icon: Icons.credit_card_rounded,
+                  label: l10n.text('kcc'),
                   color: const Color(0xFFE65100),
-                  onTap: () {},
+                  onTap: () => NavigationHelper.push(context, const KccScreen()),
                 ),
               ),
               StaggeredAnimation(
@@ -1220,6 +1215,216 @@ class _HomeScreenState extends State<HomeScreen> with TickerProviderStateMixin {
           ),
         );
       },
+    );
+  }
+
+  // ── Profile Progress Nudge ────────────────────────────────────────────────────
+
+  Widget _buildProfileProgressNudge(AppLocalizations l10n) {
+    return Consumer<FarmerProvider>(
+      builder: (context, farmer, _) {
+        final pct = farmer.completionPercentage;
+        // Only show if profile is NOT fully complete
+        if (pct >= 1.0) return const SizedBox.shrink();
+
+        final completedSteps = (pct * 6).round();
+        final totalSteps = 6;
+        final isLow = pct < 0.34;
+        final isMid = pct >= 0.34 && pct < 0.67;
+
+        final Color progressColor = isLow
+            ? const Color(0xFFE53935)
+            : isMid
+                ? const Color(0xFFFF8F00)
+                : const Color(0xFF43A047);
+
+        final String emoji = isLow ? '🔴' : isMid ? '🟡' : '🟢';
+
+        return Padding(
+          padding: const EdgeInsets.fromLTRB(20, 20, 20, 0),
+          child: StaggeredAnimation(
+            index: 1,
+            child: GestureDetector(
+              onTap: () {
+                HapticFeedback.lightImpact();
+                NavigationHelper.push(context, const ProfileScreen());
+              },
+              child: ClipRRect(
+                borderRadius: BorderRadius.circular(24),
+                child: BackdropFilter(
+                  filter: ImageFilter.blur(sigmaX: 20, sigmaY: 20),
+                  child: Container(
+                    padding: const EdgeInsets.fromLTRB(20, 18, 20, 18),
+                    decoration: BoxDecoration(
+                      gradient: LinearGradient(
+                        begin: Alignment.topLeft,
+                        end: Alignment.bottomRight,
+                        colors: [
+                          Colors.white.withValues(alpha: 0.90),
+                          Colors.white.withValues(alpha: 0.70),
+                        ],
+                      ),
+                      borderRadius: BorderRadius.circular(24),
+                      border: Border.all(
+                        color: progressColor.withValues(alpha: 0.35),
+                        width: 1.5,
+                      ),
+                      boxShadow: [
+                        BoxShadow(
+                          color: progressColor.withValues(alpha: 0.10),
+                          blurRadius: 24,
+                          offset: const Offset(0, 8),
+                        ),
+                      ],
+                    ),
+                    child: Column(
+                      crossAxisAlignment: CrossAxisAlignment.start,
+                      children: [
+                        Row(
+                          children: [
+                            Text(emoji, style: const TextStyle(fontSize: 20)),
+                            const SizedBox(width: 10),
+                            Expanded(
+                              child: Column(
+                                crossAxisAlignment: CrossAxisAlignment.start,
+                                children: [
+                                  Text(
+                                    l10n.text('profile_progress'),
+                                    style: const TextStyle(
+                                      fontSize: 15,
+                                      fontWeight: FontWeight.w800,
+                                      color: Color(0xFF1C1B1F),
+                                    ),
+                                  ),
+                                  Text(
+                                    '$completedSteps/$totalSteps ${l10n.text('profile_progress_desc')}',
+                                    style: TextStyle(
+                                      fontSize: 12,
+                                      color: Colors.grey[600],
+                                    ),
+                                  ),
+                                ],
+                              ),
+                            ),
+                            Container(
+                              padding: const EdgeInsets.symmetric(
+                                  horizontal: 12, vertical: 6),
+                              decoration: BoxDecoration(
+                                color: progressColor.withValues(alpha: 0.12),
+                                borderRadius: BorderRadius.circular(20),
+                                border: Border.all(
+                                    color: progressColor.withValues(alpha: 0.3)),
+                              ),
+                              child: Text(
+                                '${(pct * 100).round()}${l10n.text('profile_pct_complete')}',
+                                style: TextStyle(
+                                  fontSize: 12,
+                                  fontWeight: FontWeight.w800,
+                                  color: progressColor,
+                                ),
+                              ),
+                            ),
+                          ],
+                        ),
+                        const SizedBox(height: 14),
+                        // Progress bar
+                        ClipRRect(
+                          borderRadius: BorderRadius.circular(8),
+                          child: LinearProgressIndicator(
+                            value: pct,
+                            minHeight: 8,
+                            backgroundColor:
+                                progressColor.withValues(alpha: 0.12),
+                            valueColor:
+                                AlwaysStoppedAnimation<Color>(progressColor),
+                          ),
+                        ),
+                        const SizedBox(height: 12),
+                        // Step pills
+                        _buildProfileStepPills(farmer, progressColor, l10n),
+                        const SizedBox(height: 12),
+                        // CTA
+                        Row(
+                          mainAxisAlignment: MainAxisAlignment.end,
+                          children: [
+                            Text(
+                              l10n.text('complete_now'),
+                              style: TextStyle(
+                                fontSize: 13,
+                                fontWeight: FontWeight.w700,
+                                color: progressColor,
+                              ),
+                            ),
+                            const SizedBox(width: 4),
+                            Icon(Icons.arrow_forward_rounded,
+                                color: progressColor, size: 16),
+                          ],
+                        ),
+                      ],
+                    ),
+                  ),
+                ),
+              ),
+            ),
+          ),
+        );
+      },
+    );
+  }
+
+  Widget _buildProfileStepPills(
+      FarmerProvider farmer, Color color, AppLocalizations l10n) {
+    final steps = [
+      (farmer.hasState, l10n.state),
+      (farmer.hasCrops, l10n.crops),
+      (farmer.hasLandSize, l10n.land),
+      (farmer.hasPersonalDetails, l10n.text('personal_details')),
+      (farmer.hasAadhaar, l10n.text('aadhaar')),
+      (farmer.hasBankDetails, l10n.text('bank_details')),
+    ];
+
+    return Wrap(
+      spacing: 6,
+      runSpacing: 6,
+      children: steps.map((step) {
+        final done = step.$1;
+        final label = step.$2.length > 8
+            ? '${step.$2.substring(0, 7)}…'
+            : step.$2;
+        return Container(
+          padding: const EdgeInsets.symmetric(horizontal: 9, vertical: 4),
+          decoration: BoxDecoration(
+            color: done
+                ? color.withValues(alpha: 0.12)
+                : Colors.grey.withValues(alpha: 0.10),
+            borderRadius: BorderRadius.circular(20),
+            border: Border.all(
+              color: done
+                  ? color.withValues(alpha: 0.35)
+                  : Colors.grey.withValues(alpha: 0.25),
+            ),
+          ),
+          child: Row(
+            mainAxisSize: MainAxisSize.min,
+            children: [
+              Icon(
+                done ? Icons.check_rounded : Icons.radio_button_unchecked_rounded,
+                size: 11,
+                color: done ? color : Colors.grey[400],
+              ),
+              const SizedBox(width: 4),
+              Text(
+                label,
+                style: TextStyle(
+                  fontSize: 10,
+                  fontWeight: FontWeight.w600,
+                  color: done ? color : Colors.grey[500],
+                ),
+              ),
+            ],
+          ),
+        );
+      }).toList(),
     );
   }
 

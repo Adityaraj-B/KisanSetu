@@ -430,6 +430,32 @@
   "pmfby_featured_sub": "फसल बीमा",
   "kcc_featured": "केसीसी",
   "kcc_featured_sub": "क्रेडिट कार्ड",
+  "kcc": "KCC कार्ड",
 
-  "app_info": "ऐप जानकारी"
+  "app_info": "ऐप जानकारी",
+
+  "share_scheme": "योजना शेयर करें",
+  "share_scheme_whatsapp": "WhatsApp पर शेयर करें",
+  "scheme_shared": "योजना की जानकारी कॉपी हुई!",
+  "days_left": "दिन बाकी",
+  "day_left": "दिन बाकी",
+  "deadline_today": "आज आखिरी दिन!",
+  "deadline_passed": "बंद",
+  "deadline_urgent": "जरूरी",
+  "apply_before": "पहले आवेदन करें",
+  "ongoing": "जारी",
+
+  "spray_advisory": "छिड़काव सलाह",
+  "spray_good": "छिड़काव के लिए अच्छा दिन",
+  "spray_avoid": "छिड़काव न करें",
+  "spray_caution": "सावधानी से छिड़काव करें",
+  "spray_good_desc": "कम हवा और उपयुक्त नमी — कीटनाशक/उर्वरक छिड़काव के लिए उपयुक्त।",
+  "spray_avoid_desc": "तेज़ हवा या बारिश की संभावना — आज छिड़काव न करें।",
+  "spray_caution_desc": "परिस्थितियाँ सीमांत हैं — केवल सुबह के घंटों में छिड़काव करें।",
+
+  "profile_progress": "प्रोफ़ाइल प्रगति",
+  "profile_progress_desc": "अधिक योजनाएं पाने के लिए प्रोफ़ाइल पूरी करें",
+  "complete_now": "अभी पूरा करें",
+  "profile_pct_complete": "% पूर्ण",
+  "unlock_more_schemes": "अधिक पात्र योजनाएं अनलॉक करें"
 }

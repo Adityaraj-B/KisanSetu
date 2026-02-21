@@ -139,12 +139,8 @@ class _WeatherScreenState extends State<WeatherScreen>
 
                   // Content
                   if (_isLoading)
-                    const SliverFillRemaining(
-                      child: Center(
-                        child: CircularProgressIndicator(
-                          color: Color(0xFF00897B),
-                        ),
-                      ),
+                    SliverToBoxAdapter(
+                      child: _buildWeatherSkeleton(),
                     )
                   else if (_error != null)
                     SliverFillRemaining(
@@ -169,6 +165,11 @@ class _WeatherScreenState extends State<WeatherScreen>
                     // Farmer-centric insights
                     SliverToBoxAdapter(
                       child: _buildFarmerInsights(l10n),
+                    ),
+
+                    // Spray Advisory
+                    SliverToBoxAdapter(
+                      child: _buildSprayAdvisory(l10n),
                     ),
 
                     // 7-day forecast
@@ -1367,6 +1368,221 @@ class _WeatherScreenState extends State<WeatherScreen>
     );
   }
 
+  // ── Spray Advisory ───────────────────────────────────────────────────────────
+  Widget _buildSprayAdvisory(AppLocalizations l10n) {
+    final current = _weatherData!.current;
+    final today = _weatherData!.forecast.forecastDays.isNotEmpty
+        ? _weatherData!.forecast.forecastDays[0]
+        : null;
+
+    final windKph = current.windKph;
+    final humidity = current.humidity;
+    final rainChance = today?.day.dailyChanceOfRain ?? 0;
+
+    // Determine advisory level
+    final String status;
+    final String title;
+    final String description;
+    final Color cardColor;
+    final Color borderColor;
+    final IconData statusIcon;
+
+    if (windKph > 20 || rainChance > 50) {
+      status = 'avoid';
+      title = l10n.text('spray_avoid');
+      description = l10n.text('spray_avoid_desc');
+      cardColor = const Color(0xFFFFEBEE);
+      borderColor = const Color(0xFFE53935);
+      statusIcon = Icons.do_not_disturb_on_rounded;
+    } else if (windKph > 12 || humidity > 80 || humidity < 35) {
+      status = 'caution';
+      title = l10n.text('spray_caution');
+      description = l10n.text('spray_caution_desc');
+      cardColor = const Color(0xFFFFF8E1);
+      borderColor = const Color(0xFFFF8F00);
+      statusIcon = Icons.warning_amber_rounded;
+    } else {
+      status = 'good';
+      title = l10n.text('spray_good');
+      description = l10n.text('spray_good_desc');
+      cardColor = const Color(0xFFE8F5E9);
+      borderColor = const Color(0xFF43A047);
+      statusIcon = Icons.check_circle_rounded;
+    }
+
+    final iconColor = status == 'avoid'
+        ? const Color(0xFFE53935)
+        : status == 'caution'
+            ? const Color(0xFFFF8F00)
+            : const Color(0xFF43A047);
+
+    return Padding(
+      padding: const EdgeInsets.fromLTRB(20, 0, 20, 20),
+      child: Column(
+        crossAxisAlignment: CrossAxisAlignment.start,
+        children: [
+          _buildSectionHeader(
+            l10n.text('spray_advisory'),
+            Icons.water_drop_rounded,
+            const Color(0xFF0288D1),
+          ),
+          const SizedBox(height: 16),
+          Container(
+            decoration: BoxDecoration(
+              color: cardColor,
+              borderRadius: BorderRadius.circular(20),
+              border: Border.all(color: borderColor.withValues(alpha: 0.5), width: 1.5),
+              boxShadow: [
+                BoxShadow(
+                  color: borderColor.withValues(alpha: 0.10),
+                  blurRadius: 16,
+                  offset: const Offset(0, 4),
+                ),
+              ],
+            ),
+            child: Padding(
+              padding: const EdgeInsets.all(18),
+              child: Row(
+                children: [
+                  Container(
+                    padding: const EdgeInsets.all(14),
+                    decoration: BoxDecoration(
+                      color: iconColor.withValues(alpha: 0.15),
+                      shape: BoxShape.circle,
+                    ),
+                    child: Icon(statusIcon, color: iconColor, size: 30),
+                  ),
+                  const SizedBox(width: 16),
+                  Expanded(
+                    child: Column(
+                      crossAxisAlignment: CrossAxisAlignment.start,
+                      children: [
+                        Text(
+                          title,
+                          style: TextStyle(
+                            fontSize: 16,
+                            fontWeight: FontWeight.w800,
+                            color: iconColor,
+                          ),
+                        ),
+                        const SizedBox(height: 6),
+                        Text(
+                          description,
+                          style: TextStyle(
+                            fontSize: 13,
+                            color: Colors.grey[700],
+                            height: 1.4,
+                          ),
+                        ),
+                        const SizedBox(height: 10),
+                        // Conditions row
+                        Row(
+                          children: [
+                            _buildSprayConditionChip(
+                              '💨 ${windKph.round()} km/h',
+                              windKph > 20
+                                  ? const Color(0xFFE53935)
+                                  : windKph > 12
+                                      ? const Color(0xFFFF8F00)
+                                      : const Color(0xFF43A047),
+                            ),
+                            const SizedBox(width: 8),
+                            _buildSprayConditionChip(
+                              '💧 $humidity%',
+                              humidity > 80 || humidity < 35
+                                  ? const Color(0xFFFF8F00)
+                                  : const Color(0xFF43A047),
+                            ),
+                            const SizedBox(width: 8),
+                            _buildSprayConditionChip(
+                              '🌧️ $rainChance%',
+                              rainChance > 50
+                                  ? const Color(0xFFE53935)
+                                  : rainChance > 30
+                                      ? const Color(0xFFFF8F00)
+                                      : const Color(0xFF43A047),
+                            ),
+                          ],
+                        ),
+                      ],
+                    ),
+                  ),
+                ],
+              ),
+            ),
+          ),
+        ],
+      ),
+    );
+  }
+
+  Widget _buildSprayConditionChip(String label, Color color) {
+    return Container(
+      padding: const EdgeInsets.symmetric(horizontal: 8, vertical: 4),
+      decoration: BoxDecoration(
+        color: color.withValues(alpha: 0.12),
+        borderRadius: BorderRadius.circular(10),
+        border: Border.all(color: color.withValues(alpha: 0.3)),
+      ),
+      child: Text(
+        label,
+        style: TextStyle(
+          fontSize: 11,
+          fontWeight: FontWeight.w600,
+          color: color,
+        ),
+      ),
+    );
+  }
+
+  // ── Weather Skeleton ─────────────────────────────────────────────────────────
+  Widget _buildWeatherSkeleton() {
+    return Padding(
+      padding: const EdgeInsets.fromLTRB(20, 8, 20, 20),
+      child: Column(
+        children: [
+          // Main card skeleton
+          _WeatherSkeletonBox(height: 220, radius: 28),
+          const SizedBox(height: 24),
+          // Section header skeleton
+          Row(
+            children: [
+              _WeatherSkeletonBox(width: 36, height: 36, radius: 10),
+              const SizedBox(width: 12),
+              _WeatherSkeletonBox(width: 160, height: 20, radius: 8),
+            ],
+          ),
+          const SizedBox(height: 16),
+          // Insights card skeleton
+          _WeatherSkeletonBox(height: 200, radius: 20),
+          const SizedBox(height: 24),
+          // Forecast header skeleton
+          Row(
+            children: [
+              _WeatherSkeletonBox(width: 36, height: 36, radius: 10),
+              const SizedBox(width: 12),
+              _WeatherSkeletonBox(width: 140, height: 20, radius: 8),
+            ],
+          ),
+          const SizedBox(height: 16),
+          // Forecast cards skeleton
+          SizedBox(
+            height: 140,
+            child: ListView.builder(
+              scrollDirection: Axis.horizontal,
+              physics: const NeverScrollableScrollPhysics(),
+              itemCount: 5,
+              itemBuilder: (context, i) => Padding(
+                padding: const EdgeInsets.only(right: 12),
+                child: _WeatherSkeletonBox(width: 80, height: 140, radius: 18),
+              ),
+            ),
+          ),
+        ],
+      ),
+    );
+  }
+
   Widget _buildSectionHeader(String title, IconData icon, Color color) {
     return Row(
       children: [
@@ -1413,6 +1629,66 @@ class _WeatherScreenState extends State<WeatherScreen>
       return Icons.severe_cold;
     }
     return Icons.wb_cloudy;
+  }
+}
+
+// ── Weather skeleton shimmer box ──────────────────────────────────────────────
+
+class _WeatherSkeletonBox extends StatefulWidget {
+  final double? width;
+  final double height;
+  final double radius;
+
+  const _WeatherSkeletonBox({
+    this.width,
+    required this.height,
+    required this.radius,
+  });
+
+  @override
+  State<_WeatherSkeletonBox> createState() => _WeatherSkeletonBoxState();
+}
+
+class _WeatherSkeletonBoxState extends State<_WeatherSkeletonBox>
+    with SingleTickerProviderStateMixin {
+  late AnimationController _ctrl;
+  late Animation<double> _anim;
+
+  @override
+  void initState() {
+    super.initState();
+    _ctrl = AnimationController(
+      vsync: this,
+      duration: const Duration(milliseconds: 1100),
+    )..repeat(reverse: true);
+    _anim = CurvedAnimation(parent: _ctrl, curve: Curves.easeInOut);
+  }
+
+  @override
+  void dispose() {
+    _ctrl.dispose();
+    super.dispose();
+  }
+
+  @override
+  Widget build(BuildContext context) {
+    return AnimatedBuilder(
+      animation: _anim,
+      builder: (context, _) {
+        return Container(
+          width: widget.width,
+          height: widget.height,
+          decoration: BoxDecoration(
+            borderRadius: BorderRadius.circular(widget.radius),
+            color: Color.lerp(
+              const Color(0xFFDCE9E8),
+              const Color(0xFFEEF5F5),
+              _anim.value,
+            ),
+          ),
+        );
+      },
+    );
   }
 }
 

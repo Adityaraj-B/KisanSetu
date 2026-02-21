@@ -6,16 +6,11 @@ import '../../data/models/district_model.dart';
 import '../../data/models/crop_model.dart';
 import '../../data/models/enhanced_farmer_profile.dart';
 import '../../data/fallback_data.dart';
-import '../services/pmfby_api_service.dart';
 
 /// Loading state enum for API calls
 enum LoadingState { initial, loading, success, error }
 
-/// Onboarding Provider - State management for farmer onboarding flow
-/// Handles API calls, form state, and profile persistence
 class OnboardingProvider extends ChangeNotifier {
-  // API Service
-  final PMFBYApiService _apiService = PMFBYApiService();
 
   // Profile data
   EnhancedFarmerProfile _profile = EnhancedFarmerProfile.empty();
@@ -127,34 +122,26 @@ class OnboardingProvider extends ChangeNotifier {
 
   // ==================== API Calls ====================
 
-  /// Load states from API (with fallback to local data)
+  /// Load states from fallback data
   Future<void> loadStates({bool forceRefresh = false}) async {
     _statesLoadingState = LoadingState.loading;
     _statesError = null;
     notifyListeners();
 
     try {
-      _states = await _apiService.fetchStates(forceRefresh: forceRefresh);
-      _statesLoadingState = LoadingState.success;
-      debugPrint('OnboardingProvider: Loaded ${_states.length} states from API');
-    } on PMFBYApiException catch (e) {
-      debugPrint('OnboardingProvider: API error loading states: ${e.message}');
-      // Use fallback data when API fails
       _states = FallbackData.getIndianStates();
       _statesLoadingState = LoadingState.success;
-      debugPrint('OnboardingProvider: Using fallback data - ${_states.length} states');
+      debugPrint('OnboardingProvider: Loaded ${_states.length} states');
     } catch (e) {
-      debugPrint('OnboardingProvider: Unknown error loading states: $e');
-      // Use fallback data when API fails
-      _states = FallbackData.getIndianStates();
-      _statesLoadingState = LoadingState.success;
-      debugPrint('OnboardingProvider: Using fallback data - ${_states.length} states');
+      debugPrint('OnboardingProvider: Error loading states: $e');
+      _statesError = e.toString();
+      _statesLoadingState = LoadingState.error;
     }
 
     notifyListeners();
   }
 
-  /// Load districts for selected state (with fallback to generic districts)
+  /// Load districts for selected state
   Future<void> loadDistricts({bool forceRefresh = false}) async {
     if (!_profile.hasState) {
       _districts = [];
@@ -167,31 +154,19 @@ class OnboardingProvider extends ChangeNotifier {
     notifyListeners();
 
     try {
-      _districts = await _apiService.fetchDistricts(
-        stateId: _profile.selectedState!.stateId,
-        seasonId: _profile.seasonId,
-        forceRefresh: forceRefresh,
-      );
-      _districtsLoadingState = LoadingState.success;
-      debugPrint('OnboardingProvider: Loaded ${_districts.length} districts from API');
-    } on PMFBYApiException catch (e) {
-      debugPrint('OnboardingProvider: API error loading districts: ${e.message}');
-      // Use fallback data from JSON when API fails
       _districts = await FallbackData.getDistrictsFromJson(_profile.selectedState!.stateId);
       _districtsLoadingState = LoadingState.success;
-      debugPrint('OnboardingProvider: Using fallback data - ${_districts.length} districts');
+      debugPrint('OnboardingProvider: Loaded ${_districts.length} districts');
     } catch (e) {
-      debugPrint('OnboardingProvider: Unknown error loading districts: $e');
-      // Use fallback data from JSON when API fails
-      _districts = await FallbackData.getDistrictsFromJson(_profile.selectedState!.stateId);
-      _districtsLoadingState = LoadingState.success;
-      debugPrint('OnboardingProvider: Using fallback data - ${_districts.length} districts');
+      debugPrint('OnboardingProvider: Error loading districts: $e');
+      _districtsError = e.toString();
+      _districtsLoadingState = LoadingState.error;
     }
 
     notifyListeners();
   }
 
-  /// Load crops for selected district (with fallback to common crops)
+  /// Load crops for selected district
   Future<void> loadCrops({bool forceRefresh = false}) async {
     if (!_profile.hasDistrict) {
       _crops = [];
@@ -204,25 +179,13 @@ class OnboardingProvider extends ChangeNotifier {
     notifyListeners();
 
     try {
-      _crops = await _apiService.fetchCrops(
-        districtId: _profile.selectedDistrict!.districtId,
-        seasonId: _profile.seasonId,
-        forceRefresh: forceRefresh,
-      );
-      _cropsLoadingState = LoadingState.success;
-      debugPrint('OnboardingProvider: Loaded ${_crops.length} crops from API');
-    } on PMFBYApiException catch (e) {
-      debugPrint('OnboardingProvider: API error loading crops: ${e.message}');
-      // Use fallback data when API fails
       _crops = FallbackData.getFallbackCrops(_profile.selectedDistrict!.districtId);
       _cropsLoadingState = LoadingState.success;
-      debugPrint('OnboardingProvider: Using fallback data - ${_crops.length} crops');
+      debugPrint('OnboardingProvider: Loaded ${_crops.length} crops');
     } catch (e) {
-      debugPrint('OnboardingProvider: Unknown error loading crops: $e');
-      // Use fallback data when API fails
-      _crops = FallbackData.getFallbackCrops(_profile.selectedDistrict!.districtId);
-      _cropsLoadingState = LoadingState.success;
-      debugPrint('OnboardingProvider: Using fallback data - ${_crops.length} crops');
+      debugPrint('OnboardingProvider: Error loading crops: $e');
+      _cropsError = e.toString();
+      _cropsLoadingState = LoadingState.error;
     }
 
     notifyListeners();
@@ -432,11 +395,6 @@ class OnboardingProvider extends ChangeNotifier {
     _currentStep = 0;
     notifyListeners();
     await _saveProfile();
-  }
-
-  /// Clear API cache
-  Future<void> clearCache() async {
-    await _apiService.clearCache();
   }
 }
 

@@ -9,6 +9,7 @@ import 'core/providers/farmer_provider.dart';
 import 'core/providers/auth_provider.dart';
 import 'core/providers/onboarding_provider.dart';
 import 'core/providers/weather_provider.dart';
+import 'core/providers/chat_provider.dart';
 import 'features/language/screens/language_select_screen.dart';
 import 'features/auth/screens/auth_signin_screen.dart';
 import 'features/onboarding/screens/pmfby_onboarding_screen.dart';
@@ -48,6 +49,7 @@ void main() async {
         ChangeNotifierProvider.value(value: authProvider),
         ChangeNotifierProvider.value(value: onboardingProvider),
         ChangeNotifierProvider(create: (_) => WeatherProvider()),
+        ChangeNotifierProvider(create: (_) => ChatProvider()),
       ],
       child: const KisanSetuApp(),
     ),

@@ -433,6 +433,32 @@
   "pmfby_featured_sub": "Crop Insurance",
   "kcc_featured": "KCC",
   "kcc_featured_sub": "Credit Card",
+  "kcc": "KCC Card",
 
-  "app_info": "App Info"
+  "app_info": "App Info",
+
+  "share_scheme": "Share Scheme",
+  "share_scheme_whatsapp": "Share on WhatsApp",
+  "scheme_shared": "Scheme details copied!",
+  "days_left": "days left",
+  "day_left": "day left",
+  "deadline_today": "Deadline Today!",
+  "deadline_passed": "Closed",
+  "deadline_urgent": "Urgent",
+  "apply_before": "Apply before",
+  "ongoing": "Ongoing",
+
+  "spray_advisory": "Spray Advisory",
+  "spray_good": "Good Day to Spray",
+  "spray_avoid": "Avoid Spraying",
+  "spray_caution": "Spray with Caution",
+  "spray_good_desc": "Low wind & optimal humidity — ideal for pesticide/fertilizer spraying.",
+  "spray_avoid_desc": "High winds or rain likely — avoid spraying today.",
+  "spray_caution_desc": "Conditions are marginal — spray only in the morning hours.",
+
+  "profile_progress": "Profile Progress",
+  "profile_progress_desc": "Complete your profile to unlock more schemes",
+  "complete_now": "Complete Now",
+  "profile_pct_complete": "% complete",
+  "unlock_more_schemes": "Unlock more eligible schemes"
 }
