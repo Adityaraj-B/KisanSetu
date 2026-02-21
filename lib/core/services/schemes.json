@@ -1,0 +1,109 @@
+{
+  "schemes": {
+    "s01": {
+      "name": "PM-Kisan Samman Nidhi",
+      "params": { "state": "ALL", "district": "ALL", "crops": ["ALL"], "max_acres": 4.94 },
+      "benefit": "₹6,000/year (3 installments)",
+      "docs": ["Aadhaar", "Land Records"],
+      "url": "https://pmkisan.gov.in/"
+    },
+    "s02": {
+      "name": "PM Fasal Bima Yojana (PMFBY)",
+      "params": { "state": "ALL", "district": "ALL", "crops": ["Wheat", "Rice", "Cotton", "Pulses", "Oilseeds"], "max_acres": 100.0 },
+      "benefit": "Insurance cover against crop failure",
+      "docs": ["Sowing Certificate", "Land Record"],
+      "url": "https://pmfby.gov.in/"
+    },
+    "s03": {
+      "name": "Kisan Credit Card (KCC)",
+      "params": { "state": "ALL", "district": "ALL", "crops": ["ALL"], "max_acres": 50.0 },
+      "benefit": "Credit limit for farm inputs at 4% interest",
+      "docs": ["Land Title", "ID Proof"],
+      "url": "https://www.jansamarth.in/kisan-credit-card-scheme"
+    },
+    "s04": {
+      "name": "Namo Drone Didi",
+      "params": { "state": ["Maharashtra", "Gujarat", "Uttar Pradesh", "Karnataka"], "district": "ALL", "crops": ["Cotton", "Sugarcane", "Paddy"], "max_acres": 10.0 },
+      "benefit": "80% subsidy for Women SHGs to buy drones",
+      "docs": ["SHG Certificate", "Aadhaar"],
+      "url": "https://www.india.gov.in/spotlight/details/namo-drone-didi"
+    },
+    "s05": {
+      "name": "PM-KUSUM (Solar Pumps)",
+      "params": { "state": "ALL", "district": "ALL", "crops": ["ALL"], "max_acres": 15.0 },
+      "benefit": "60% subsidy on Solar Water Pumps",
+      "docs": ["Land Map", "Bank Copy"],
+      "url": "https://mnre.gov.in/en/pradhan-mantri-kisan-urja-suraksha-evam-utthaan-mahabhiyaan-pm-kusum/"
+    },
+    "s06": {
+      "name": "Soil Health Card",
+      "params": { "state": "ALL", "district": "ALL", "crops": ["ALL"], "max_acres": 100.0 },
+      "benefit": "Free soil nutrient report",
+      "docs": ["Aadhaar"],
+      "url": "https://soilhealth.dac.gov.in/"
+    },
+    "s07": {
+      "name": "Paramparagat Krishi Vikas Yojana",
+      "params": { "state": ["Uttarakhand", "Sikkim", "Maharashtra"], "district": "ALL", "crops": ["Organic Crops"], "max_acres": 5.0 },
+      "benefit": "₹50,000/ha for organic farming",
+      "docs": ["Aadhaar", "Organic Cluster ID"],
+      "url": "https://rkvy.da.gov.in/"
+    },
+    "s08": {
+      "name": "Agri-Infrastructure Fund",
+      "params": { "state": "ALL", "district": "ALL", "crops": ["ALL"], "max_acres": 100.0 },
+      "benefit": "3% interest subvention on infra loans",
+      "docs": ["Detailed Project Report"],
+      "url": "https://agriinfra.dac.gov.in/"
+    },
+    "s09": {
+      "name": "National Bamboo Mission",
+      "params": { "state": ["Assam", "Madhya Pradesh", "Kerala"], "district": "ALL", "crops": ["Bamboo"], "max_acres": 10.0 },
+      "benefit": "Financial help for bamboo cultivation",
+      "docs": ["Land Possession Cert"],
+      "url": "https://nbm.da.gov.in/"
+    },
+    "s10": {
+      "name": "Pashu Kisan Credit Card",
+      "params": { "state": ["Haryana", "Punjab", "Uttar Pradesh"], "district": "ALL", "crops": ["Livestock"], "max_acres": 0.0 },
+      "benefit": "Credit for animal husbandry",
+      "docs": ["Veterinary Certificate"],
+      "url": "https://dahd.gov.in/division/kcc"
+    },
+    "s11": {
+      "name": "e-NAM Trading",
+      "params": { "state": "ALL", "district": "ALL", "crops": ["Grains", "Vegetables", "Fruits"], "max_acres": 100.0 },
+      "benefit": "Direct online selling to Mandis",
+      "docs": ["Bank Details", "Aadhaar"],
+      "url": "https://enam.gov.in/"
+    },
+    "s12": {
+      "name": "SMAM (Machinery Subsidy)",
+      "params": { "state": "ALL", "district": "ALL", "crops": ["ALL"], "max_acres": 100.0 },
+      "benefit": "40-50% subsidy on Tractors/Harvesters",
+      "docs": ["Quotation", "Land Record"],
+      "url": "https://farmech.dac.gov.in/"
+    },
+    "s13": {
+      "name": "PM Krishi Sinchayee Yojana",
+      "params": { "state": "ALL", "district": "ALL", "crops": ["Sugarcane", "Fruit Orchards"], "max_acres": 12.0 },
+      "benefit": "Subsidy for Drip/Sprinkler systems",
+      "docs": ["Electricity Bill", "Land Certificate"],
+      "url": "https://pmksy.gov.in/"
+    },
+    "s14": {
+      "name": "National Beekeeping Mission",
+      "params": { "state": ["Bihar", "Uttar Pradesh", "Rajasthan"], "district": "ALL", "crops": ["Honey"], "max_acres": 2.0 },
+      "benefit": "Support for setting up Beehives",
+      "docs": ["Training Certificate"],
+      "url": "https://nbb.gov.in/"
+    },
+    "s15": {
+      "name": "Horticulture Cluster Development",
+      "params": { "state": ["Himachal Pradesh", "Jammu & Kashmir", "Maharashtra"], "district": "ALL", "crops": ["Apple", "Mango", "Grapes"], "max_acres": 50.0 },
+      "benefit": "Financial aid for fruit cluster exports",
+      "docs": ["Cluster Member ID"],
+      "url": "https://nhb.gov.in/"
+    }
+  }
+}
