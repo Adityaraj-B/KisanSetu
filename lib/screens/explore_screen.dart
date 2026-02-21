@@ -4,6 +4,7 @@ import '../core/localization/app_localizations.dart';
 import '../core/utils/navigation_helper.dart';
 import '../features/schemes/screens/schemes_screen.dart';
 import '../features/insurance/screens/insurance_screen.dart';
+import '../features/weather/screens/weather_screen.dart';
 import '../data/models/enhanced_farmer_profile.dart';
 
 class ExploreScreen extends StatefulWidget {
@@ -23,10 +24,10 @@ class _ExploreScreenState extends State<ExploreScreen>
   int _selectedCategoryIndex = 0;
 
   final List<_CategoryItem> _categories = [
-    _CategoryItem('All', Icons.apps_rounded, 'सभी', const Color(0xFF2E7D32)),
-    _CategoryItem('Schemes', Icons.account_balance_rounded, 'योजनाएं', const Color(0xFF1565C0)),
-    _CategoryItem('Insurance', Icons.shield_rounded, 'बीमा', const Color(0xFF00897B)),
-    _CategoryItem('Credit', Icons.credit_card_rounded, 'क्रेडिट', const Color(0xFFFF8F00)),
+    _CategoryItem('All', Icons.apps_rounded, 'सभी', 'सर्व', const Color(0xFF2E7D32)),
+    _CategoryItem('Schemes', Icons.account_balance_rounded, 'योजनाएं', 'योजना', const Color(0xFF1565C0)),
+    _CategoryItem('Insurance', Icons.shield_rounded, 'बीमा', 'विमा', const Color(0xFF00897B)),
+    _CategoryItem('Credit', Icons.credit_card_rounded, 'क्रेडिट', 'कर्ज', const Color(0xFFFF8F00)),
   ];
 
   @override
@@ -53,7 +54,7 @@ class _ExploreScreenState extends State<ExploreScreen>
   @override
   Widget build(BuildContext context) {
     final l10n = AppLocalizations.of(context)!;
-    final isHindi = Localizations.localeOf(context).languageCode == 'hi';
+    final langCode = Localizations.localeOf(context).languageCode;
 
     return AnnotatedRegion<SystemUiOverlayStyle>(
       value: SystemUiOverlayStyle.light,
@@ -66,7 +67,7 @@ class _ExploreScreenState extends State<ExploreScreen>
             slivers: [
               _buildHeader(l10n),
               SliverToBoxAdapter(child: _buildSearchSection(l10n)),
-              SliverToBoxAdapter(child: _buildCategoryChips(isHindi)),
+              SliverToBoxAdapter(child: _buildCategoryChips(langCode)),
               SliverToBoxAdapter(child: _buildSeasonCard(l10n)),
               SliverToBoxAdapter(child: _buildFeaturedSection(l10n)),
               SliverToBoxAdapter(child: _buildServicesSection(l10n)),
@@ -199,7 +200,7 @@ class _ExploreScreenState extends State<ExploreScreen>
     );
   }
 
-  Widget _buildCategoryChips(bool isHindi) {
+  Widget _buildCategoryChips(String langCode) {
     return SizedBox(
       height: 56,
       child: ListView.builder(
@@ -209,7 +210,7 @@ class _ExploreScreenState extends State<ExploreScreen>
         itemBuilder: (context, index) {
           final category = _categories[index];
           final isSelected = _selectedCategoryIndex == index;
-          final displayName = isHindi ? category.nameHi : category.name;
+          final displayName = langCode == 'hi' ? category.nameHi : (langCode == 'mr' ? category.nameMr : category.name);
 
           return Padding(
             padding: const EdgeInsets.only(right: 10),
@@ -230,7 +231,8 @@ class _ExploreScreenState extends State<ExploreScreen>
   }
 
   Widget _buildSeasonCard(AppLocalizations l10n) {
-    final seasonDisplay = SeasonHelper.getCurrentSeasonDisplay();
+    final langCode = Localizations.localeOf(context).languageCode;
+    final seasonDisplay = SeasonHelper.getLocalizedSeasonDisplay(langCode);
     final isKharif = SeasonHelper.getCurrentSeasonName() == 'Kharif';
 
     return Padding(
@@ -335,24 +337,24 @@ class _ExploreScreenState extends State<ExploreScreen>
               clipBehavior: Clip.none,
               children: [
                 _FeaturedCard(
-                  title: 'PM-KISAN',
-                  subtitle: '₹6,000 yearly',
+                  title: l10n.text('pm_kisan_featured'),
+                  subtitle: l10n.text('pm_kisan_featured_sub'),
                   icon: Icons.account_balance_rounded,
                   gradientColors: const [Color(0xFF2E7D32), Color(0xFF4CAF50)],
                   onTap: () => NavigationHelper.push(context, const SchemesScreen()),
                 ),
                 const SizedBox(width: 14),
                 _FeaturedCard(
-                  title: 'PMFBY',
-                  subtitle: 'Crop Insurance',
+                  title: l10n.text('pmfby_featured'),
+                  subtitle: l10n.text('pmfby_featured_sub'),
                   icon: Icons.shield_rounded,
                   gradientColors: const [Color(0xFF1565C0), Color(0xFF42A5F5)],
                   onTap: () => NavigationHelper.push(context, const InsuranceScreen()),
                 ),
                 const SizedBox(width: 14),
                 _FeaturedCard(
-                  title: 'KCC',
-                  subtitle: 'Credit Card',
+                  title: l10n.text('kcc_featured'),
+                  subtitle: l10n.text('kcc_featured_sub'),
                   icon: Icons.credit_card_rounded,
                   gradientColors: const [Color(0xFFFF8F00), Color(0xFFFFB300)],
                   onTap: () {},
@@ -406,7 +408,7 @@ class _ExploreScreenState extends State<ExploreScreen>
                 icon: Icons.wb_sunny_rounded,
                 label: l10n.text('weather'),
                 color: const Color(0xFF00897B),
-                onTap: () {},
+                onTap: () => NavigationHelper.push(context, const WeatherScreen()),
               ),
               _ServiceItem(
                 icon: Icons.article_rounded,
@@ -434,9 +436,10 @@ class _CategoryItem {
   final String name;
   final IconData icon;
   final String nameHi;
+  final String nameMr;
   final Color color;
 
-  _CategoryItem(this.name, this.icon, this.nameHi, this.color);
+  _CategoryItem(this.name, this.icon, this.nameHi, this.nameMr, this.color);
 }
 
 class _SectionHeader extends StatelessWidget {

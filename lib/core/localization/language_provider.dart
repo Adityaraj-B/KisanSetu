@@ -29,7 +29,7 @@ class LanguageProvider extends ChangeNotifier {
 
   /// Set locale and save to storage
   Future<void> setLocale(String languageCode) async {
-    if (languageCode == 'en' || languageCode == 'hi') {
+    if (languageCode == 'en' || languageCode == 'hi' || languageCode == 'mr') {
       _locale = Locale(languageCode);
       _hasSelectedLanguage = true;
       notifyListeners();
@@ -62,5 +62,9 @@ class LanguageProvider extends ChangeNotifier {
 
   void setHindi() {
     setLocale('hi');
+  }
+
+  void setMarathi() {
+    setLocale('mr');
   }
 }

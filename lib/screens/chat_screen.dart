@@ -124,6 +124,9 @@ class _ChatScreenState extends State<ChatScreen> {
     } else if (intent == ChatIntent.languageSwitchEnglish) {
       languageProvider.setLocale('en');
       _updateVoiceLanguage('en');
+    } else if (intent == ChatIntent.languageSwitchMarathi) {
+      languageProvider.setLocale('mr');
+      _updateVoiceLanguage('mr');
     }
 
     Future.delayed(const Duration(milliseconds: 300), () {
@@ -237,7 +240,7 @@ class _ChatScreenState extends State<ChatScreen> {
     final languageCode = context.read<LanguageProvider>().locale.languageCode;
     final message = languageCode == 'hi'
         ? 'वॉयस इनपुट इस डिवाइस पर उपलब्ध नहीं है। कृपया टाइप करें।'
-        : 'Voice input not available on this device. Please type instead.';
+        : (languageCode == 'mr' ? 'व्हॉइस इनपुट या डिव्हाइसवर उपलब्ध नाही. कृपया टाइप करा.' : 'Voice input not available on this device. Please type instead.');
 
     ScaffoldMessenger.of(context).showSnackBar(
       SnackBar(
@@ -252,7 +255,7 @@ class _ChatScreenState extends State<ChatScreen> {
     final languageCode = context.read<LanguageProvider>().locale.languageCode;
     final message = languageCode == 'hi'
         ? 'वॉयस पहचान विफल। कृपया टाइप करें।'
-        : 'Voice recognition failed. Please type instead.';
+        : (languageCode == 'mr' ? 'व्हॉइस ओळख अयशस्वी. कृपया टाइप करा.' : 'Voice recognition failed. Please type instead.');
 
     ScaffoldMessenger.of(context).showSnackBar(
       SnackBar(
@@ -305,8 +308,8 @@ class _ChatScreenState extends State<ChatScreen> {
             icon: Icon(_ttsEnabled ? Icons.volume_up : Icons.volume_off),
             onPressed: _toggleTts,
             tooltip: _ttsEnabled
-                ? (languageCode == 'hi' ? 'आवाज़ बंद करें' : 'Mute voice')
-                : (languageCode == 'hi' ? 'आवाज़ चालू करें' : 'Enable voice'),
+                ? (languageCode == 'hi' ? 'आवाज़ बंद करें' : (languageCode == 'mr' ? 'आवाज बंद करा' : 'Mute voice'))
+                : (languageCode == 'hi' ? 'आवाज़ चालू करें' : (languageCode == 'mr' ? 'आवाज चालू करा' : 'Enable voice')),
           ),
         ],
       ),
@@ -411,7 +414,7 @@ class _ChatScreenState extends State<ChatScreen> {
                 ],
                 if (isUser) ...[
                   Text(
-                    languageCode == 'hi' ? 'आप' : 'You',
+                    languageCode == 'hi' ? 'आप' : (languageCode == 'mr' ? 'तुम्ही' : 'You'),
                     style: TextStyle(
                       fontSize: 12,
                       color: AppColors.textSecondary,
@@ -610,8 +613,8 @@ class _ChatScreenState extends State<ChatScreen> {
                       : AppColors.primaryGreen,
                 ),
                 tooltip: _isListening
-                    ? (languageCode == 'hi' ? 'सुन रहा है...' : 'Listening...')
-                    : (languageCode == 'hi' ? 'बोलें' : 'Speak'),
+                    ? (languageCode == 'hi' ? 'सुन रहा है...' : (languageCode == 'mr' ? 'ऐकत आहे...' : 'Listening...'))
+                    : (languageCode == 'hi' ? 'बोलें' : (languageCode == 'mr' ? 'बोला' : 'Speak')),
               ),
             ),
             Expanded(
@@ -622,7 +625,7 @@ class _ChatScreenState extends State<ChatScreen> {
                 onSubmitted: _sendMessage,
                 decoration: InputDecoration(
                   hintText: _isListening
-                      ? (languageCode == 'hi' ? 'सुन रहा है...' : 'Listening...')
+                      ? (languageCode == 'hi' ? 'सुन रहा है...' : (languageCode == 'mr' ? 'ऐकत आहे...' : 'Listening...'))
                       : l10n.chatbotTypeMessage,
                   hintStyle: TextStyle(color: AppColors.textSecondary),
                   filled: true,

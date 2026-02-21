@@ -5,7 +5,7 @@ import '../../../core/constants/app_constants.dart';
 import '../../../core/localization/app_localizations.dart';
 import '../../../core/providers/farmer_provider.dart';
 import '../../../core/theme/app_colors.dart';
-import '../../../data/models/scheme_model.dart';
+import '../../../core/services/schemes_service.dart';
 
 class SchemesScreen extends StatefulWidget {
   const SchemesScreen({super.key});
@@ -20,8 +20,10 @@ class _SchemesScreenState extends State<SchemesScreen> with SingleTickerProvider
   String _selectedCategory = 'All';
   String _searchQuery = '';
   final TextEditingController _searchController = TextEditingController();
+  bool _isLoading = true;
+  List<JsonScheme> _eligibleSchemes = [];
 
-  final List<String> _categories = ['All', 'Income Support', 'Insurance', 'Credit', 'Market Access', 'Soil Health', 'Organic'];
+  List<String> _categories = ['All'];
 
   @override
   void initState() {
@@ -31,7 +33,34 @@ class _SchemesScreenState extends State<SchemesScreen> with SingleTickerProvider
       duration: const Duration(milliseconds: 600),
     );
     _fadeAnimation = CurvedAnimation(parent: _animationController, curve: Curves.easeOut);
-    _animationController.forward();
+    _loadSchemes();
+  }
+
+  Future<void> _loadSchemes() async {
+    await SchemesService.instance.loadSchemesData();
+
+    if (mounted) {
+      final farmer = context.read<FarmerProvider>();
+      _updateEligibleSchemes(farmer);
+
+      // Get unique categories from loaded schemes
+      final categories = SchemesService.instance.getUniqueCategories();
+
+      setState(() {
+        _categories = categories;
+        _isLoading = false;
+      });
+      _animationController.forward();
+    }
+  }
+
+  void _updateEligibleSchemes(FarmerProvider farmer) {
+    _eligibleSchemes = SchemesService.instance.getEligibleSchemes(
+      state: farmer.selectedState,
+      district: farmer.selectedDistrict,
+      crops: farmer.selectedCrops,
+      landSize: farmer.landSizeAcres,
+    );
   }
 
   @override
@@ -50,11 +79,27 @@ class _SchemesScreenState extends State<SchemesScreen> with SingleTickerProvider
       case 'eco': return Icons.eco;
       case 'spa': return Icons.spa;
       case 'storefront': return Icons.storefront;
+      case 'payments': return Icons.payments;
+      case 'water_drop': return Icons.water_drop;
+      case 'local_florist': return Icons.local_florist;
+      case 'smart_toy': return Icons.smart_toy;
+      case 'elderly': return Icons.elderly;
+      case 'business': return Icons.business;
+      case 'park': return Icons.park;
+      case 'hive': return Icons.hive;
+      case 'trending_up': return Icons.trending_up;
+      case 'recycling': return Icons.recycling;
+      case 'groups': return Icons.groups;
+      case 'delete_sweep': return Icons.delete_sweep;
+      case 'restaurant': return Icons.restaurant;
+      case 'factory': return Icons.factory;
+      case 'work': return Icons.work;
+      case 'price_check': return Icons.price_check;
       default: return Icons.account_balance;
     }
   }
 
-  List<Scheme> _filterSchemes(List<Scheme> schemes) {
+  List<JsonScheme> _filterSchemes(List<JsonScheme> schemes) {
     var filtered = schemes;
 
     if (_selectedCategory != 'All') {
@@ -64,20 +109,24 @@ class _SchemesScreenState extends State<SchemesScreen> with SingleTickerProvider
     if (_searchQuery.isNotEmpty) {
       final query = _searchQuery.toLowerCase();
       filtered = filtered.where((s) =>
-        s.nameEn.toLowerCase().contains(query) ||
+        s.name.toLowerCase().contains(query) ||
         s.nameHi.toLowerCase().contains(query) ||
-        s.category.toLowerCase().contains(query)
+        s.category.toLowerCase().contains(query) ||
+        s.benefit.toLowerCase().contains(query) ||
+        s.benefitHi.toLowerCase().contains(query)
       ).toList();
     }
 
     return filtered;
   }
 
-  void _onSchemeCardTap(Scheme scheme, AppLocalizations l10n) {
+  void _onSchemeCardTap(JsonScheme scheme, AppLocalizations l10n) {
     _showSchemeDetailsSheet(scheme, l10n);
   }
 
-  void _showSchemeDetailsSheet(Scheme scheme, AppLocalizations l10n) {
+  void _showSchemeDetailsSheet(JsonScheme scheme, AppLocalizations l10n) {
+    final languageCode = Localizations.localeOf(context).languageCode;
+
     showModalBottomSheet(
       context: context,
       isScrollControlled: true,
@@ -122,7 +171,7 @@ class _SchemesScreenState extends State<SchemesScreen> with SingleTickerProvider
                       crossAxisAlignment: CrossAxisAlignment.start,
                       children: [
                         Text(
-                          scheme.getLocalizedName(Localizations.localeOf(context).languageCode),
+                          scheme.getLocalizedName(languageCode),
                           style: const TextStyle(fontSize: 20, fontWeight: FontWeight.bold, color: Colors.white),
                         ),
                         const SizedBox(height: 4),
@@ -132,7 +181,7 @@ class _SchemesScreenState extends State<SchemesScreen> with SingleTickerProvider
                             color: Colors.white.withOpacity(0.2),
                             borderRadius: BorderRadius.circular(AppConstants.radiusFull),
                           ),
-                          child: Text(scheme.category, style: const TextStyle(fontSize: 12, color: Colors.white)),
+                          child: Text(scheme.getLocalizedCategory(languageCode), style: const TextStyle(fontSize: 12, color: Colors.white)),
                         ),
                       ],
                     ),
@@ -150,17 +199,29 @@ class _SchemesScreenState extends State<SchemesScreen> with SingleTickerProvider
                 child: Column(
                   crossAxisAlignment: CrossAxisAlignment.start,
                   children: [
-                    _buildDetailSection('Description', l10n.text(scheme.description), Icons.info_outline),
+                    _buildDetailSection(
+                      languageCode == 'hi' ? 'विवरण' : (languageCode == 'mr' ? 'वर्णन' : 'Description'),
+                      scheme.getLocalizedDescription(languageCode),
+                      Icons.info_outline,
+                    ),
                     const SizedBox(height: AppConstants.spacingL),
-                    _buildDetailSection('Benefits', l10n.text(scheme.benefits), Icons.card_giftcard),
+                    _buildDetailSection(
+                      languageCode == 'hi' ? 'लाभ' : (languageCode == 'mr' ? 'फायदे' : 'Benefits'),
+                      scheme.getLocalizedBenefit(languageCode),
+                      Icons.card_giftcard,
+                    ),
+                    const SizedBox(height: AppConstants.spacingL),
+                    _buildDocumentsSection(scheme, languageCode),
                     if (scheme.hasLandRequirements) ...[
                       const SizedBox(height: AppConstants.spacingL),
                       _buildLandRequirementsSection(scheme, l10n),
                     ],
                     const SizedBox(height: AppConstants.spacingL),
-                    _buildEligibilitySection(scheme, l10n),
+                    _buildEligibilitySection(scheme, l10n, languageCode),
+                    const SizedBox(height: AppConstants.spacingL),
+                    _buildDeadlineSection(scheme, languageCode),
                     const SizedBox(height: AppConstants.spacingXL),
-                    _buildApplyButton(l10n),
+                    _buildApplyButton(l10n, scheme.url),
                   ],
                 ),
               ),
@@ -195,19 +256,104 @@ class _SchemesScreenState extends State<SchemesScreen> with SingleTickerProvider
     );
   }
 
-  Widget _buildLandRequirementsSection(Scheme scheme, AppLocalizations l10n) {
+  Widget _buildLandRequirementsSection(JsonScheme scheme, AppLocalizations l10n) {
     String requirement = '';
-    if (scheme.minLandAcres != null && scheme.maxLandAcres != null) {
-      requirement = '${scheme.minLandAcres} - ${scheme.maxLandAcres} ${l10n.acres}';
-    } else if (scheme.minLandAcres != null) {
-      requirement = '≥ ${scheme.minLandAcres} ${l10n.acres}';
-    } else if (scheme.maxLandAcres != null) {
-      requirement = '≤ ${scheme.maxLandAcres} ${l10n.acres}';
+    final params = scheme.params;
+    if (params.minAcres != null && params.maxAcres != null && params.maxAcres! > 0) {
+      requirement = '${params.minAcres} - ${params.maxAcres} ${l10n.acres}';
+    } else if (params.minAcres != null) {
+      requirement = '≥ ${params.minAcres} ${l10n.acres}';
+    } else if (params.maxAcres != null && params.maxAcres! > 0) {
+      requirement = '≤ ${params.maxAcres} ${l10n.acres}';
+    } else {
+      final localizedText = l10n.text('no_land_requirement');
+      requirement = localizedText.isNotEmpty ? localizedText : 'No specific requirement';
     }
     return _buildDetailSection('Land Requirement', requirement, Icons.landscape);
   }
 
-  Widget _buildEligibilitySection(Scheme scheme, AppLocalizations l10n) {
+  Widget _buildDocumentsSection(JsonScheme scheme, String languageCode) {
+    final docs = scheme.getLocalizedDocs(languageCode);
+    return Container(
+      padding: const EdgeInsets.all(AppConstants.spacingM),
+      decoration: BoxDecoration(
+        color: AppColors.infoLight,
+        borderRadius: BorderRadius.circular(AppConstants.radiusM),
+        border: Border.all(color: AppColors.info.withOpacity(0.3)),
+      ),
+      child: Column(
+        crossAxisAlignment: CrossAxisAlignment.start,
+        children: [
+          Row(
+            children: [
+              Icon(Icons.description, color: AppColors.info, size: 20),
+              const SizedBox(width: AppConstants.spacingS),
+              Text(
+                languageCode == 'hi' ? 'आवश्यक दस्तावेज' : (languageCode == 'mr' ? 'आवश्यक कागदपत्रे' : 'Required Documents'),
+                style: TextStyle(fontSize: 14, fontWeight: FontWeight.w600, color: AppColors.info),
+              ),
+            ],
+          ),
+          const SizedBox(height: AppConstants.spacingS),
+          ...docs.map((doc) => Padding(
+            padding: const EdgeInsets.symmetric(vertical: 2),
+            child: Row(
+              children: [
+                Icon(Icons.check_circle_outline, color: AppColors.info, size: 16),
+                const SizedBox(width: AppConstants.spacingS),
+                Expanded(child: Text(doc, style: TextStyle(fontSize: 14, color: AppColors.textPrimary))),
+              ],
+            ),
+          )),
+        ],
+      ),
+    );
+  }
+
+  Widget _buildDeadlineSection(JsonScheme scheme, String languageCode) {
+    return Container(
+      padding: const EdgeInsets.all(AppConstants.spacingM),
+      decoration: BoxDecoration(
+        color: AppColors.warningLight,
+        borderRadius: BorderRadius.circular(AppConstants.radiusM),
+        border: Border.all(color: AppColors.warning.withOpacity(0.3)),
+      ),
+      child: Row(
+        children: [
+          Icon(Icons.schedule, color: AppColors.warning, size: 20),
+          const SizedBox(width: AppConstants.spacingS),
+          Expanded(
+            child: Column(
+              crossAxisAlignment: CrossAxisAlignment.start,
+              children: [
+                Text(
+                  languageCode == 'hi' ? 'आवेदन की अंतिम तिथि' : (languageCode == 'mr' ? 'अर्जाची अंतिम तारीख' : 'Application Deadline'),
+                  style: TextStyle(fontSize: 12, color: AppColors.textSecondary),
+                ),
+                const SizedBox(height: 2),
+                Text(
+                  scheme.getLocalizedDeadline(languageCode),
+                  style: TextStyle(fontSize: 14, fontWeight: FontWeight.w600, color: AppColors.warning),
+                ),
+              ],
+            ),
+          ),
+        ],
+      ),
+    );
+  }
+
+  Widget _buildEligibilitySection(JsonScheme scheme, AppLocalizations l10n, String languageCode) {
+    final statesText = scheme.supportsAllStates
+        ? (languageCode == 'hi' ? 'पूरे भारत में' : (languageCode == 'mr' ? 'संपूर्ण भारत' : 'All India'))
+        : '${scheme.params.states.length} ${languageCode == 'hi' ? 'राज्य' : (languageCode == 'mr' ? 'राज्ये' : 'states')}';
+    final cropsText = scheme.supportsAllCrops
+        ? (languageCode == 'hi' ? 'सभी फसलें' : (languageCode == 'mr' ? 'सर्व पिके' : 'All crops'))
+        : '${scheme.params.crops.length} ${languageCode == 'hi' ? 'फसलें' : (languageCode == 'mr' ? 'पिके' : 'crops')}';
+    final landText = scheme.hasLandRequirements
+        ? (languageCode == 'hi' ? 'विशेष आवश्यकताएं' : (languageCode == 'mr' ? 'विशेष आवश्यकता' : 'Specific requirements'))
+        : (languageCode == 'hi' ? 'कोई प्रतिबंध नहीं' : (languageCode == 'mr' ? 'कोणतेही बंधन नाही' : 'No restrictions'));
+
     return Container(
       padding: const EdgeInsets.all(AppConstants.spacingM),
       decoration: BoxDecoration(
@@ -222,13 +368,21 @@ class _SchemesScreenState extends State<SchemesScreen> with SingleTickerProvider
             children: [
               Icon(Icons.check_circle, color: AppColors.success, size: 20),
               const SizedBox(width: AppConstants.spacingS),
-              Text('Eligibility', style: TextStyle(fontSize: 14, fontWeight: FontWeight.w600, color: AppColors.success)),
+              Text(
+                languageCode == 'hi' ? 'पात्रता' : (languageCode == 'mr' ? 'पात्रता' : 'Eligibility'),
+                style: TextStyle(fontSize: 14, fontWeight: FontWeight.w600, color: AppColors.success),
+              ),
             ],
           ),
           const SizedBox(height: AppConstants.spacingS),
-          _buildEligibilityItem('States', scheme.supportsAllStates ? 'All India' : '${scheme.supportedStates.length} states'),
-          _buildEligibilityItem('Crops', scheme.supportsAllCrops ? 'All crops' : '${scheme.supportedCrops.length} crops'),
-          _buildEligibilityItem('Land', scheme.hasLandRequirements ? 'Specific requirements' : 'No restrictions'),
+          Text(
+            scheme.getLocalizedEligibility(languageCode),
+            style: TextStyle(fontSize: 14, color: AppColors.textPrimary, height: 1.4),
+          ),
+          const SizedBox(height: AppConstants.spacingS),
+          _buildEligibilityItem(languageCode == 'hi' ? 'राज्य' : (languageCode == 'mr' ? 'राज्ये' : 'States'), statesText),
+          _buildEligibilityItem(languageCode == 'hi' ? 'फसलें' : (languageCode == 'mr' ? 'पिके' : 'Crops'), cropsText),
+          _buildEligibilityItem(languageCode == 'hi' ? 'भूमि' : (languageCode == 'mr' ? 'जमीन' : 'Land'), landText),
         ],
       ),
     );
@@ -246,7 +400,7 @@ class _SchemesScreenState extends State<SchemesScreen> with SingleTickerProvider
     );
   }
 
-  Widget _buildApplyButton(AppLocalizations l10n) {
+  Widget _buildApplyButton(AppLocalizations l10n, String url) {
     return SizedBox(
       width: double.infinity,
       child: ElevatedButton.icon(
@@ -254,7 +408,9 @@ class _SchemesScreenState extends State<SchemesScreen> with SingleTickerProvider
           Navigator.pop(context);
           ScaffoldMessenger.of(context).showSnackBar(
             SnackBar(
-              content: const Text('Application feature coming soon!'),
+              content: Text(url.isNotEmpty
+                  ? 'Visit: $url'
+                  : 'Application feature coming soon!'),
               backgroundColor: AppColors.primaryGreen,
               behavior: SnackBarBehavior.floating,
               shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(AppConstants.radiusM)),
@@ -312,11 +468,9 @@ class _SchemesScreenState extends State<SchemesScreen> with SingleTickerProvider
                         children: [
                           Text('Eligible Schemes', style: const TextStyle(fontSize: 26, fontWeight: FontWeight.bold, color: Colors.white)),
                           const SizedBox(height: 4),
-                          Consumer<FarmerProvider>(
-                            builder: (context, farmer, _) => Text(
-                              '${farmer.eligibleSchemes.length} schemes available for you',
-                              style: TextStyle(fontSize: 14, color: Colors.white.withOpacity(0.8)),
-                            ),
+                          Text(
+                            '${_eligibleSchemes.length} schemes available for you',
+                            style: TextStyle(fontSize: 14, color: Colors.white.withOpacity(0.8)),
                           ),
                         ],
                       ),
@@ -415,37 +569,45 @@ class _SchemesScreenState extends State<SchemesScreen> with SingleTickerProvider
                 },
               ),
             ),
-            Consumer<FarmerProvider>(
-              builder: (context, farmer, _) {
-                final allSchemes = farmer.eligibleSchemes;
-                final filteredSchemes = _filterSchemes(allSchemes);
+            if (_isLoading)
+              const SliverFillRemaining(
+                child: Center(
+                  child: CircularProgressIndicator(color: AppColors.primaryGreen),
+                ),
+              )
+            else
+              Consumer<FarmerProvider>(
+                builder: (context, farmer, _) {
+                  // Update eligible schemes when farmer profile changes
+                  _updateEligibleSchemes(farmer);
+                  final filteredSchemes = _filterSchemes(_eligibleSchemes);
 
-                if (filteredSchemes.isEmpty) {
-                  return SliverFillRemaining(child: _buildEmptyState(l10n));
-                }
+                  if (filteredSchemes.isEmpty) {
+                    return SliverFillRemaining(child: _buildEmptyState(l10n));
+                  }
 
-                return SliverPadding(
-                  padding: const EdgeInsets.only(bottom: AppConstants.spacingXL),
-                  sliver: SliverList(
-                    delegate: SliverChildBuilderDelegate(
-                      (context, index) {
-                        final scheme = filteredSchemes[index];
-                        final languageCode = Localizations.localeOf(context).languageCode;
-                        return _buildSchemeCard(scheme, languageCode, l10n);
-                      },
-                      childCount: filteredSchemes.length,
+                  return SliverPadding(
+                    padding: const EdgeInsets.only(bottom: AppConstants.spacingXL),
+                    sliver: SliverList(
+                      delegate: SliverChildBuilderDelegate(
+                        (context, index) {
+                          final scheme = filteredSchemes[index];
+                          final languageCode = Localizations.localeOf(context).languageCode;
+                          return _buildSchemeCard(scheme, languageCode, l10n);
+                        },
+                        childCount: filteredSchemes.length,
+                      ),
                     ),
-                  ),
-                );
-              },
-            ),
+                  );
+                },
+              ),
           ],
         ),
       ),
     );
   }
 
-  Widget _buildSchemeCard(Scheme scheme, String languageCode, AppLocalizations l10n) {
+  Widget _buildSchemeCard(JsonScheme scheme, String languageCode, AppLocalizations l10n) {
     return Container(
       margin: const EdgeInsets.symmetric(horizontal: AppConstants.spacingM, vertical: AppConstants.spacingS),
       decoration: BoxDecoration(
@@ -482,13 +644,23 @@ class _SchemesScreenState extends State<SchemesScreen> with SingleTickerProvider
                         overflow: TextOverflow.ellipsis,
                       ),
                       const SizedBox(height: 4),
+                      Text(
+                        scheme.getLocalizedBenefit(languageCode),
+                        style: TextStyle(fontSize: 12, color: AppColors.textSecondary),
+                        maxLines: 1,
+                        overflow: TextOverflow.ellipsis,
+                      ),
+                      const SizedBox(height: 4),
                       Container(
                         padding: const EdgeInsets.symmetric(horizontal: 8, vertical: 2),
                         decoration: BoxDecoration(
                           color: AppColors.lightGray,
                           borderRadius: BorderRadius.circular(12),
                         ),
-                        child: Text(scheme.category, style: TextStyle(fontSize: 11, color: AppColors.textSecondary)),
+                        child: Text(
+                          scheme.getLocalizedCategory(languageCode),
+                          style: TextStyle(fontSize: 11, color: AppColors.textSecondary),
+                        ),
                       ),
                     ],
                   ),

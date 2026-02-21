@@ -55,7 +55,16 @@ class TtsService {
   }
 
   Future<void> setLanguage(String languageCode) async {
-    _currentLanguage = languageCode == 'hi' ? 'hi-IN' : 'en-US';
+    switch (languageCode) {
+      case 'hi':
+        _currentLanguage = 'hi-IN';
+        break;
+      case 'mr':
+        _currentLanguage = 'mr-IN';
+        break;
+      default:
+        _currentLanguage = 'en-US';
+    }
     if (_isInitialized) {
       try {
         await _tts.setLanguage(_currentLanguage);

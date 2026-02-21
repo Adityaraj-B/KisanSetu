@@ -11,6 +11,8 @@ import '../core/providers/auth_provider.dart';
 import '../core/widgets/premium_widgets.dart';
 import '../core/theme/premium_theme.dart';
 import '../core/utils/navigation_helper.dart';
+import '../core/services/district_service.dart';
+import '../data/models/district_model.dart';
 import '../main.dart';
 
 class _LiquidGlassCard extends StatelessWidget {
@@ -479,7 +481,7 @@ class _ProfileScreenState extends State<ProfileScreen> with TickerProviderStateM
                         value: farmer.selectedDistrict ?? l10n.text('tap_to_add'),
                         color: const Color(0xFF388E3C),
                         isSet: farmer.selectedDistrict != null && farmer.selectedDistrict!.isNotEmpty,
-                        onTap: () => _showStateEditSheet(context, farmer, l10n),
+                        onTap: () => _showDistrictEditSheet(context, farmer, l10n),
                       ),
                       const _CustomDivider(),
                       _ProfileInfoTile(
@@ -795,15 +797,38 @@ class _ProfileScreenState extends State<ProfileScreen> with TickerProviderStateM
     return Consumer<LanguageProvider>(
       builder: (context, langProvider, _) {
         final currentCode = langProvider.locale.languageCode;
+        String currentLabel() {
+          switch (currentCode) {
+            case 'en': return 'English';
+            case 'hi': return 'हिंदी';
+            case 'mr': return 'मराठी';
+            default: return 'English';
+          }
+        }
+        String nextCode() {
+          switch (currentCode) {
+            case 'en': return 'hi';
+            case 'hi': return 'mr';
+            case 'mr': return 'en';
+            default: return 'en';
+          }
+        }
+        String currentFlag() {
+          switch (currentCode) {
+            case 'en': return '🇬🇧';
+            case 'hi': return '🇮🇳';
+            case 'mr': return '🇮🇳';
+            default: return '🇬🇧';
+          }
+        }
         return _SettingsTile(
           icon: Icons.language_rounded,
           title: l10n.selectLanguage,
-          subtitle: currentCode == 'en' ? 'English' : 'हिंदी',
+          subtitle: currentLabel(),
           color: const Color(0xFF0277BD),
           onTap: () {
             HapticFeedback.selectionClick();
-            final newCode = currentCode == 'en' ? 'hi' : 'en';
-            langProvider.setLocale(newCode);
+            langProvider.setLocale(nextCode());
           },
           trailing: Container(
             padding: const EdgeInsets.symmetric(horizontal: 14, vertical: 8),
@@ -821,7 +846,7 @@ class _ProfileScreenState extends State<ProfileScreen> with TickerProviderStateM
               ],
             ),
             child: Text(
-              currentCode == 'en' ? '🇬🇧' : '🇮🇳',
+              currentFlag(),
               style: const TextStyle(fontSize: 16),
             ),
           ),
@@ -893,8 +918,8 @@ class _ProfileScreenState extends State<ProfileScreen> with TickerProviderStateM
                         color: const Color(0xFF2E7D32).withValues(alpha: 0.15),
                         borderRadius: BorderRadius.circular(10),
                       ),
-                      child: const Text(
-                        'Latest',
+                      child: Text(
+                        l10n.text('latest'),
                         style: TextStyle(
                           fontSize: 13,
                           fontWeight: FontWeight.w700,
@@ -1024,6 +1049,30 @@ class _ProfileScreenState extends State<ProfileScreen> with TickerProviderStateM
       builder: (context) => _PremiumBottomSheet(
         title: l10n.state,
         child: _StateSelectionContent(farmer: farmer, l10n: l10n),
+      ),
+    );
+  }
+
+  void _showDistrictEditSheet(BuildContext context, FarmerProvider farmer, AppLocalizations l10n) {
+    if (farmer.selectedState == null || farmer.selectedState!.isEmpty) {
+      // Show a snackbar if state is not selected
+      ScaffoldMessenger.of(context).showSnackBar(
+        SnackBar(
+          content: Text(l10n.text('select_state_first')),
+          backgroundColor: const Color(0xFF2E7D32),
+          behavior: SnackBarBehavior.floating,
+          shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(12)),
+        ),
+      );
+      return;
+    }
+    showModalBottomSheet(
+      context: context,
+      isScrollControlled: true,
+      backgroundColor: Colors.transparent,
+      builder: (context) => _PremiumBottomSheet(
+        title: l10n.text('district'),
+        child: _DistrictSelectionContent(farmer: farmer, l10n: l10n),
       ),
     );
   }
@@ -1414,6 +1463,10 @@ class _StateSelectionContent extends StatelessWidget {
             color: Colors.transparent,
             child: InkWell(
               onTap: () {
+                // Clear district if state changes
+                if (farmer.selectedState != state) {
+                  farmer.updateDistrict(null);
+                }
                 farmer.updateState(state);
                 Navigator.pop(context);
               },
@@ -1459,6 +1512,223 @@ class _StateSelectionContent extends StatelessWidget {
           ),
         );
       },
+    );
+  }
+}
+
+class _DistrictSelectionContent extends StatefulWidget {
+  final FarmerProvider farmer;
+  final AppLocalizations l10n;
+
+  const _DistrictSelectionContent({
+    required this.farmer,
+    required this.l10n,
+  });
+
+  @override
+  State<_DistrictSelectionContent> createState() => _DistrictSelectionContentState();
+}
+
+class _DistrictSelectionContentState extends State<_DistrictSelectionContent> {
+  List<DistrictModel> _districts = [];
+  bool _isLoading = true;
+  String _searchQuery = '';
+  final TextEditingController _searchController = TextEditingController();
+
+  @override
+  void initState() {
+    super.initState();
+    _loadDistricts();
+  }
+
+  @override
+  void dispose() {
+    _searchController.dispose();
+    super.dispose();
+  }
+
+  Future<void> _loadDistricts() async {
+    final stateName = widget.farmer.selectedState;
+    if (stateName == null || stateName.isEmpty) {
+      setState(() {
+        _isLoading = false;
+        _districts = [];
+      });
+      return;
+    }
+
+    try {
+      final districts = await DistrictService.instance.getDistrictsForState(stateName);
+      if (mounted) {
+        setState(() {
+          _districts = districts;
+          _isLoading = false;
+        });
+      }
+    } catch (e) {
+      if (mounted) {
+        setState(() {
+          _isLoading = false;
+          _districts = [];
+        });
+      }
+    }
+  }
+
+  List<DistrictModel> get _filteredDistricts {
+    if (_searchQuery.isEmpty) return _districts;
+    return _districts
+        .where((d) => d.districtName.toLowerCase().contains(_searchQuery.toLowerCase()))
+        .toList();
+  }
+
+  @override
+  Widget build(BuildContext context) {
+    if (_isLoading) {
+      return const Center(
+        child: Padding(
+          padding: EdgeInsets.all(40),
+          child: CircularProgressIndicator(color: Color(0xFF388E3C)),
+        ),
+      );
+    }
+
+    if (_districts.isEmpty) {
+      return Center(
+        child: Padding(
+          padding: const EdgeInsets.all(40),
+          child: Column(
+            mainAxisSize: MainAxisSize.min,
+            children: [
+              Icon(Icons.map_outlined, size: 48, color: Colors.grey[400]),
+              const SizedBox(height: 16),
+              Text(
+                widget.l10n.text('no_districts_available'),
+                style: TextStyle(fontSize: 16, color: Colors.grey[600]),
+                textAlign: TextAlign.center,
+              ),
+            ],
+          ),
+        ),
+      );
+    }
+
+    return Column(
+      children: [
+        // Search field
+        Padding(
+          padding: const EdgeInsets.fromLTRB(24, 0, 24, 16),
+          child: TextField(
+            controller: _searchController,
+            decoration: InputDecoration(
+              hintText: widget.l10n.text('search_district'),
+              prefixIcon: const Icon(Icons.search, color: Color(0xFF388E3C)),
+              suffixIcon: _searchQuery.isNotEmpty
+                  ? IconButton(
+                      icon: const Icon(Icons.clear),
+                      onPressed: () {
+                        _searchController.clear();
+                        setState(() => _searchQuery = '');
+                      },
+                    )
+                  : null,
+              border: OutlineInputBorder(
+                borderRadius: BorderRadius.circular(16),
+                borderSide: BorderSide(color: Colors.grey[300]!),
+              ),
+              enabledBorder: OutlineInputBorder(
+                borderRadius: BorderRadius.circular(16),
+                borderSide: BorderSide(color: Colors.grey[300]!),
+              ),
+              focusedBorder: OutlineInputBorder(
+                borderRadius: BorderRadius.circular(16),
+                borderSide: const BorderSide(color: Color(0xFF388E3C), width: 2),
+              ),
+              filled: true,
+              fillColor: Colors.grey[50],
+              contentPadding: const EdgeInsets.symmetric(horizontal: 16, vertical: 14),
+            ),
+            onChanged: (value) => setState(() => _searchQuery = value),
+          ),
+        ),
+        // District count
+        Padding(
+          padding: const EdgeInsets.symmetric(horizontal: 24),
+          child: Row(
+            children: [
+              Icon(Icons.info_outline, size: 16, color: Colors.grey[500]),
+              const SizedBox(width: 8),
+              Text(
+                '${_filteredDistricts.length} ${widget.l10n.text('districts_available')}',
+                style: TextStyle(fontSize: 12, color: Colors.grey[500]),
+              ),
+            ],
+          ),
+        ),
+        const SizedBox(height: 12),
+        // Districts list
+        Expanded(
+          child: ListView.builder(
+            shrinkWrap: true,
+            padding: const EdgeInsets.fromLTRB(24, 0, 24, 24),
+            itemCount: _filteredDistricts.length,
+            itemBuilder: (context, index) {
+              final district = _filteredDistricts[index];
+              final isSelected = widget.farmer.selectedDistrict == district.districtName;
+              return Padding(
+                padding: const EdgeInsets.only(bottom: 12),
+                child: Material(
+                  color: Colors.transparent,
+                  child: InkWell(
+                    onTap: () {
+                      widget.farmer.updateDistrict(district.districtName);
+                      Navigator.pop(context);
+                    },
+                    borderRadius: BorderRadius.circular(20),
+                    child: Container(
+                      padding: const EdgeInsets.all(20),
+                      decoration: BoxDecoration(
+                        color: isSelected
+                            ? const Color(0xFF388E3C).withValues(alpha: 0.1)
+                            : Colors.white,
+                        borderRadius: BorderRadius.circular(20),
+                        border: Border.all(
+                          color: isSelected
+                              ? const Color(0xFF388E3C)
+                              : Colors.grey[200]!,
+                          width: isSelected ? 2 : 1,
+                        ),
+                      ),
+                      child: Row(
+                        children: [
+                          Icon(
+                            Icons.map_rounded,
+                            color: isSelected ? const Color(0xFF388E3C) : Colors.grey[600],
+                            size: 26,
+                          ),
+                          const SizedBox(width: 16),
+                          Expanded(
+                            child: Text(
+                              district.districtName,
+                              style: TextStyle(
+                                fontSize: 17,
+                                fontWeight: isSelected ? FontWeight.w700 : FontWeight.w500,
+                                color: isSelected ? const Color(0xFF388E3C) : const Color(0xFF1C1B1F),
+                              ),
+                            ),
+                          ),
+                          if (isSelected)
+                            const Icon(Icons.check_circle_rounded, color: Color(0xFF388E3C), size: 26),
+                        ],
+                      ),
+                    ),
+                  ),
+                ),
+              );
+            },
+          ),
+        ),
+      ],
     );
   }
 }

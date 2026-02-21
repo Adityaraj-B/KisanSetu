@@ -6,7 +6,7 @@ import '../localization/app_localizations.dart';
 import '../localization/language_provider.dart';
 import '../../screens/home_screen.dart';
 import '../../screens/explore_screen.dart';
-import '../../screens/insurance_screen.dart';
+import '../../features/finance/screens/crop_finance_screen.dart';
 import '../../screens/profile_screen.dart';
 import 'animated_chat_fab.dart';
 
@@ -29,7 +29,7 @@ class _MainNavigationState extends State<MainNavigation>
   final List<Widget> _screens = const [
     HomeScreen(),
     ExploreScreen(),
-    InsuranceScreen(),
+    CropFinanceScreen(),
     ProfileScreen(),
   ];
 
@@ -124,9 +124,9 @@ class _MainNavigationState extends State<MainNavigation>
                     label: l10n.explore,
                   ),
                   _NavItem(
-                    icon: Icons.shield_outlined,
-                    activeIcon: Icons.shield_rounded,
-                    label: l10n.cropInsurance,
+                    icon: Icons.account_balance_wallet_outlined,
+                    activeIcon: Icons.account_balance_wallet_rounded,
+                    label: l10n.text('finance'),
                   ),
                   _NavItem(
                     icon: Icons.person_outline_rounded,
@@ -182,15 +182,15 @@ class _PremiumFloatingNavBar extends StatelessWidget {
           child: Container(
             padding: const EdgeInsets.symmetric(horizontal: 8, vertical: 12),
             decoration: BoxDecoration(
-              color: Colors.white.withOpacity(0.85),
+              color: Colors.white.withValues(alpha :0.85),
               borderRadius: BorderRadius.circular(28),
               border: Border.all(
-                color: Colors.white.withOpacity(0.5),
+                color: Colors.white.withValues(alpha :0.5),
                 width: 1.5,
               ),
               boxShadow: [
                 BoxShadow(
-                  color: Colors.black.withOpacity(0.1),
+                  color: Colors.black.withValues(alpha :0.1),
                   blurRadius: 30,
                   offset: const Offset(0, 10),
                 ),
@@ -283,7 +283,7 @@ class _PremiumNavItemState extends State<_PremiumNavItem>
             boxShadow: widget.isSelected
                 ? [
                     BoxShadow(
-                      color: const Color(0xFF2E7D32).withOpacity(0.3),
+                      color: const Color(0xFF2E7D32).withValues(alpha :0.3),
                       blurRadius: 12,
                       offset: const Offset(0, 4),
                     ),

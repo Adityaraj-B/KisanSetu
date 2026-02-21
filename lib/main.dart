@@ -8,6 +8,7 @@ import 'core/localization/language_provider.dart';
 import 'core/providers/farmer_provider.dart';
 import 'core/providers/auth_provider.dart';
 import 'core/providers/onboarding_provider.dart';
+import 'core/providers/weather_provider.dart';
 import 'features/language/screens/language_select_screen.dart';
 import 'features/auth/screens/auth_signin_screen.dart';
 import 'features/onboarding/screens/pmfby_onboarding_screen.dart';
@@ -46,6 +47,7 @@ void main() async {
         ChangeNotifierProvider.value(value: farmerProvider),
         ChangeNotifierProvider.value(value: authProvider),
         ChangeNotifierProvider.value(value: onboardingProvider),
+        ChangeNotifierProvider(create: (_) => WeatherProvider()),
       ],
       child: const KisanSetuApp(),
     ),
@@ -73,6 +75,7 @@ class KisanSetuApp extends StatelessWidget {
           supportedLocales: const [
             Locale('en'),
             Locale('hi'),
+            Locale('mr'),
           ],
           home: const AppInitializer(),
         );

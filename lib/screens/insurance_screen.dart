@@ -131,7 +131,8 @@ class _InsuranceScreenState extends State<InsuranceScreen>
   }
 
   Widget _buildSeasonCard(AppLocalizations l10n) {
-    final seasonDisplay = SeasonHelper.getCurrentSeasonDisplay();
+    final langCode = Localizations.localeOf(context).languageCode;
+    final seasonDisplay = SeasonHelper.getLocalizedSeasonDisplay(langCode);
     final isKharif = SeasonHelper.getCurrentSeasonName() == 'Kharif';
 
     return Padding(

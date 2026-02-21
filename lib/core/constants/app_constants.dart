@@ -25,6 +25,12 @@ class AppConstants {
       'nativeName': 'हिंदी',
       'icon': '🇮🇳',
     },
+    {
+      'code': 'mr',
+      'name': 'Marathi',
+      'nativeName': 'मराठी',
+      'icon': '🇮🇳',
+    },
   ];
 
   // Indian States (for dropdown)
@@ -61,16 +67,16 @@ class AppConstants {
 
   // Common Crops
   static const List<Map<String, dynamic>> commonCrops = [
-    {'name': 'Rice', 'icon': '🌾', 'nameHindi': 'चावल'},
-    {'name': 'Wheat', 'icon': '🌾', 'nameHindi': 'गेहूं'},
-    {'name': 'Cotton', 'icon': '🌿', 'nameHindi': 'कपास'},
-    {'name': 'Sugarcane', 'icon': '🎋', 'nameHindi': 'गन्ना'},
-    {'name': 'Maize', 'icon': '🌽', 'nameHindi': 'मक्का'},
-    {'name': 'Pulses', 'icon': '🫘', 'nameHindi': 'दाल'},
-    {'name': 'Vegetables', 'icon': '🥬', 'nameHindi': 'सब्जियां'},
-    {'name': 'Fruits', 'icon': '🍎', 'nameHindi': 'फल'},
-    {'name': 'Oilseeds', 'icon': '🌻', 'nameHindi': 'तिलहन'},
-    {'name': 'Spices', 'icon': '🌶️', 'nameHindi': 'मसाले'},
+    {'name': 'Rice', 'icon': '🌾', 'nameHindi': 'चावल', 'nameMarathi': 'तांदूळ'},
+    {'name': 'Wheat', 'icon': '🌾', 'nameHindi': 'गेहूं', 'nameMarathi': 'गहू'},
+    {'name': 'Cotton', 'icon': '🌿', 'nameHindi': 'कपास', 'nameMarathi': 'कापूस'},
+    {'name': 'Sugarcane', 'icon': '🎋', 'nameHindi': 'गन्ना', 'nameMarathi': 'ऊस'},
+    {'name': 'Maize', 'icon': '🌽', 'nameHindi': 'मक्का', 'nameMarathi': 'मका'},
+    {'name': 'Pulses', 'icon': '🫘', 'nameHindi': 'दाल', 'nameMarathi': 'डाळी'},
+    {'name': 'Vegetables', 'icon': '🥬', 'nameHindi': 'सब्जियां', 'nameMarathi': 'भाज्या'},
+    {'name': 'Fruits', 'icon': '🍎', 'nameHindi': 'फल', 'nameMarathi': 'फळे'},
+    {'name': 'Oilseeds', 'icon': '🌻', 'nameHindi': 'तिलहन', 'nameMarathi': 'तेलबिया'},
+    {'name': 'Spices', 'icon': '🌶️', 'nameHindi': 'मसाले', 'nameMarathi': 'मसाले'},
   ];
 
   // Land Size Configuration

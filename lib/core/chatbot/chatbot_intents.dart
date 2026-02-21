@@ -8,6 +8,7 @@ enum ChatIntent {
   thanks,
   languageSwitchHindi,
   languageSwitchEnglish,
+  languageSwitchMarathi,
   unknown,
 }
 
@@ -23,6 +24,8 @@ class IntentDetector {
       'namaste', 'namaskar',
       // Hindi
       'नमस्ते', 'नमस्कार', 'हेलो', 'हाय', 'सुप्रभात', 'शुभ संध्या',
+      // Marathi
+      'नमस्कार', 'सुप्रभात', 'शुभ संध्याकाळ',
     ],
     ChatIntent.schemeCheck: [
       // English
@@ -34,6 +37,9 @@ class IntentDetector {
       'योजना', 'योजनाएं', 'योजनाओं', 'सरकारी', 'पात्र', 'पात्रता', 'लाभ',
       'सब्सिडी', 'किसान', 'पीएम किसान', 'क्रेडिट कार्ड', 'कौन सी योजना',
       'मेरी योजना', 'उपलब्ध योजना', 'सहायता',
+      // Marathi
+      'योजना', 'सरकारी', 'पात्र', 'पात्रता', 'फायदे', 'अनुदान',
+      'माझ्या योजना', 'उपलब्ध योजना',
     ],
     ChatIntent.insuranceCheck: [
       // English
@@ -43,6 +49,8 @@ class IntentDetector {
       // Hindi
       'बीमा', 'फसल बीमा', 'फसल सुरक्षा', 'प्रीमियम', 'दावा', 'कवरेज',
       'पीएमएफबीवाई', 'फसल रक्षा',
+      // Marathi
+      'विमा', 'पीक विमा', 'पीक संरक्षण', 'प्रीमियम', 'दावा',
     ],
     ChatIntent.help: [
       // English
@@ -51,6 +59,9 @@ class IntentDetector {
       // Hindi
       'मदद', 'सहायता', 'कैसे', 'बताओ', 'बताइए', 'समझाओ', 'गाइड',
       'क्या है', 'कैसे करें', 'ऐप', 'उपयोग',
+      // Marathi
+      'मदत', 'सहाय्य', 'कसे', 'सांगा', 'समजावून सांगा', 'मार्गदर्शन',
+      'काय आहे', 'कसे करावे', 'अॅप', 'वापर',
     ],
     ChatIntent.thanks: [
       // English
@@ -58,6 +69,8 @@ class IntentDetector {
       'helpful', 'nice', 'good',
       // Hindi
       'धन्यवाद', 'शुक्रिया', 'बहुत अच्छा', 'बढ़िया',
+      // Marathi
+      'धन्यवाद', 'आभारी', 'छान', 'खूप चांगले',
     ],
     ChatIntent.languageSwitchHindi: [
       'speak hindi', 'hindi mein', 'hindi me', 'hindi bolo', 'hindi में',
@@ -66,6 +79,11 @@ class IntentDetector {
     ChatIntent.languageSwitchEnglish: [
       'speak english', 'english mein', 'english me', 'english bolo', 'english में',
       'अंग्रेजी में बोलो', 'इंग्लिश बोलो', 'switch to english', 'change to english',
+    ],
+    ChatIntent.languageSwitchMarathi: [
+      'speak marathi', 'marathi mein', 'marathi me', 'marathi bolo', 'marathi में',
+      'मराठी मध्ये बोला', 'मराठी बोला', 'switch to marathi', 'change to marathi',
+      'मराठीत बोला', 'मराठीत सांगा',
     ],
   };
 
@@ -113,6 +131,7 @@ class IntentDetector {
     final questionIndicators = [
       '?', 'what', 'how', 'which', 'when', 'where', 'why', 'can i', 'can you',
       'क्या', 'कैसे', 'कौन', 'कब', 'कहां', 'क्यों',
+      'काय', 'कसे', 'कोण', 'केव्हा', 'कुठे', 'का',
     ];
 
     final lowerMessage = message.toLowerCase();

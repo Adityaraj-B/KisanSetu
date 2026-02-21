@@ -1,11 +1,29 @@
 // Fallback data for when PMFBY API is unavailable
 // This ensures the app works even when offline
 
+import 'dart:convert';
+import 'package:flutter/services.dart';
 import 'models/state_model.dart';
 import 'models/district_model.dart';
 import 'models/crop_model.dart';
 
 class FallbackData {
+  // Cached districts data from JSON
+  static Map<String, dynamic>? _districtsJsonData;
+  static bool _isDistrictsLoaded = false;
+
+  /// Load districts JSON data
+  static Future<void> _loadDistrictsJson() async {
+    if (_isDistrictsLoaded) return;
+    try {
+      final jsonString = await rootBundle.loadString('lib/core/data/districts.json');
+      _districtsJsonData = json.decode(jsonString) as Map<String, dynamic>;
+      _isDistrictsLoaded = true;
+    } catch (e) {
+      _districtsJsonData = null;
+    }
+  }
+
   /// Indian states with their IDs (from PMFBY API structure)
   static List<StateModel> getIndianStates() {
     final statesData = [
@@ -50,9 +68,80 @@ class FallbackData {
     return statesData.map((data) => StateModel.fromJson(data)).toList();
   }
 
-  /// Generic districts fallback (when API fails)
-  /// Returns common district names that work for most states
-  static List<DistrictModel> getFallbackDistricts(String stateId) {
+  /// Get state name from state ID
+  static String? _getStateNameFromId(String stateId) {
+    final stateIdToName = {
+      '1': 'Andhra Pradesh',
+      '2': 'Arunachal Pradesh',
+      '3': 'Assam',
+      '4': 'Bihar',
+      '5': 'Chhattisgarh',
+      '6': 'Goa',
+      '7': 'Gujarat',
+      '8': 'Haryana',
+      '9': 'Himachal Pradesh',
+      '10': 'Jharkhand',
+      '11': 'Karnataka',
+      '12': 'Kerala',
+      '13': 'Madhya Pradesh',
+      '14': 'Maharashtra',
+      '15': 'Manipur',
+      '16': 'Meghalaya',
+      '17': 'Mizoram',
+      '18': 'Nagaland',
+      '19': 'Odisha',
+      '20': 'Punjab',
+      '21': 'Rajasthan',
+      '22': 'Sikkim',
+      '23': 'Tamil Nadu',
+      '24': 'Telangana',
+      '25': 'Tripura',
+      '26': 'Uttar Pradesh',
+      '27': 'Uttarakhand',
+      '28': 'West Bengal',
+    };
+    return stateIdToName[stateId];
+  }
+
+  /// Get districts from JSON data for a given state ID
+  static Future<List<DistrictModel>> getDistrictsFromJson(String stateId) async {
+    await _loadDistrictsJson();
+
+    if (_districtsJsonData == null) {
+      return _getDefaultDistricts(stateId);
+    }
+
+    final stateName = _getStateNameFromId(stateId);
+    if (stateName == null) {
+      return _getDefaultDistricts(stateId);
+    }
+
+    final states = _districtsJsonData!['states'] as Map<String, dynamic>?;
+    if (states == null) {
+      return _getDefaultDistricts(stateId);
+    }
+
+    final stateData = states[stateName] as Map<String, dynamic>?;
+    if (stateData == null) {
+      return _getDefaultDistricts(stateId);
+    }
+
+    final districtsJson = stateData['districts'] as List<dynamic>?;
+    if (districtsJson == null) {
+      return _getDefaultDistricts(stateId);
+    }
+
+    return districtsJson
+        .map((d) => DistrictModel.fromJson({
+              'districtID': d['districtId'],
+              'districtName': d['districtName'],
+              'stateID': stateId,
+            }))
+        .toList();
+  }
+
+  /// Default districts fallback (when JSON is also unavailable)
+  static List<DistrictModel> _getDefaultDistricts(String stateId) {
     final districtsData = [
       {'districtID': '${stateId}_1', 'districtName': 'District 1'},
       {'districtID': '${stateId}_2', 'districtName': 'District 2'},
@@ -60,8 +149,15 @@ class FallbackData {
       {'districtID': '${stateId}_4', 'districtName': 'District 4'},
       {'districtID': '${stateId}_5', 'districtName': 'District 5'},
     ];
-
     return districtsData.map((data) => DistrictModel.fromJson(data)).toList();
+  }
+
+  /// Generic districts fallback (when API fails)
+  /// Now uses JSON data for real district names
+  static List<DistrictModel> getFallbackDistricts(String stateId) {
+    // This is synchronous fallback, so we use default districts
+    // For async version with actual data, use getDistrictsFromJson()
+    return _getDefaultDistricts(stateId);
   }
 
   /// Common crops fallback (when API fails)

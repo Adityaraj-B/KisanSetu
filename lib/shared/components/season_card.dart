@@ -14,7 +14,8 @@ class SeasonCard extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    final seasonDisplay = SeasonHelper.getCurrentSeasonDisplay();
+    final langCode = Localizations.localeOf(context).languageCode;
+    final seasonDisplay = SeasonHelper.getLocalizedSeasonDisplay(langCode);
     final isKharif = SeasonHelper.getCurrentSeasonName() == 'Kharif';
 
     return Container(

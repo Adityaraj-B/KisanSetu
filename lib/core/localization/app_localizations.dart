@@ -38,6 +38,7 @@ class AppLocalizations {
   String get continueButton => text('continue');
   String get english => text('english');
   String get hindi => text('hindi');
+  String get marathi => text('marathi');
   String get goBack => text('go_back');
 
   String get welcome => text('welcome');
@@ -169,7 +170,7 @@ class _AppLocalizationsDelegate
 
   @override
   bool isSupported(Locale locale) {
-    return ['en', 'hi'].contains(locale.languageCode);
+    return ['en', 'hi', 'mr'].contains(locale.languageCode);
   }
 
   @override

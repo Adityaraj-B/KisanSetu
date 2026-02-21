@@ -1,109 +1,1402 @@
 {
   "schemes": {
     "s01": {
+      "id": "pm_kisan",
       "name": "PM-Kisan Samman Nidhi",
-      "params": { "state": "ALL", "district": "ALL", "crops": ["ALL"], "max_acres": 4.94 },
-      "benefit": "₹6,000/year (3 installments)",
-      "docs": ["Aadhaar", "Land Records"],
-      "url": "https://pmkisan.gov.in/"
+      "nameHi": "पीएम-किसान सम्मान निधि",
+      "nameMr": "पीएम-किसान सन्मान निधी",
+      "description": "Direct income support to farmer families across India to supplement their financial needs",
+      "descriptionHi": "पूरे भारत में किसान परिवारों को उनकी वित्तीय जरूरतों को पूरा करने के लिए सीधी आय सहायता",
+      "descriptionMr": "संपूर्ण भारतातील शेतकरी कुटुंबांना त्यांच्या आर्थिक गरजा पूर्ण करण्यासाठी थेट उत्पन्न सहाय्य",
+      "params": {
+        "state": "ALL",
+        "district": "ALL",
+        "crops": [
+          "ALL"
+        ],
+        "max_acres": 4.94,
+        "min_acres": 0
+      },
+      "benefit": "₹6,000/year (3 installments of ₹2,000 each)",
+      "benefitHi": "₹6,000/वर्ष (₹2,000 की 3 किस्तें)",
+      "benefitMr": "₹६,०००/वर्ष (प्रत्येकी ₹२,००० चे ३ हप्ते)",
+      "docs": [
+        "Aadhaar Card",
+        "Land Records",
+        "Bank Account Details"
+      ],
+      "docsHi": [
+        "आधार कार्ड",
+        "भूमि रिकॉर्ड",
+        "बैंक खाता विवरण"
+      ],
+      "docsMr": [
+        "आधार कार्ड",
+        "जमीन नोंदी",
+        "बँक खाते तपशील"
+      ],
+      "category": "Income Support",
+      "categoryHi": "आय सहायता",
+      "categoryMr": "उत्पन्न सहाय्य",
+      "url": "https://pmkisan.gov.in/",
+      "eligibility": "All farmer families with cultivable landholding",
+      "eligibilityHi": "खेती योग्य भूमि वाले सभी किसान परिवार",
+      "eligibilityMr": "लागवडीयोग्य जमीन असलेली सर्व शेतकरी कुटुंबे",
+      "deadline": "Ongoing - Apply anytime",
+      "deadlineHi": "चालू - कभी भी आवेदन करें",
+      "deadlineMr": "चालू - कधीही अर्ज करा",
+      "status": "active"
     },
     "s02": {
+      "id": "pmfby",
       "name": "PM Fasal Bima Yojana (PMFBY)",
-      "params": { "state": "ALL", "district": "ALL", "crops": ["Wheat", "Rice", "Cotton", "Pulses", "Oilseeds"], "max_acres": 100.0 },
-      "benefit": "Insurance cover against crop failure",
-      "docs": ["Sowing Certificate", "Land Record"],
-      "url": "https://pmfby.gov.in/"
+      "nameHi": "पीएम फसल बीमा योजना",
+      "nameMr": "पीएम पीक विमा योजना (PMFBY)",
+      "description": "Comprehensive crop insurance scheme providing financial support to farmers suffering crop loss/damage due to natural calamities",
+      "descriptionHi": "प्राकृतिक आपदाओं के कारण फसल हानि से पीड़ित किसानों को वित्तीय सहायता प्रदान करने वाली व्यापक फसल बीमा योजना",
+      "descriptionMr": "नैसर्गिक आपत्तींमुळे पीक नुकसान झालेल्या शेतकऱ्यांना आर्थिक सहाय्य देणारी सर्वसमावेशक पीक विमा योजना",
+      "params": {
+        "state": "ALL",
+        "district": "ALL",
+        "crops": [
+          "Wheat",
+          "Rice",
+          "Cotton",
+          "Pulses",
+          "Oilseeds",
+          "Maize",
+          "Sugarcane"
+        ],
+        "max_acres": 100,
+        "min_acres": 0.5
+      },
+      "benefit": "Insurance coverage at 2% premium for Kharif, 1.5% for Rabi crops",
+      "benefitHi": "खरीफ के लिए 2% प्रीमियम पर बीमा कवरेज, रबी फसलों के लिए 1.5%",
+      "benefitMr": "खरीप पिकांसाठी २% प्रीमियमवर विमा संरक्षण, रब्बी पिकांसाठी १.५%",
+      "docs": [
+        "Sowing Certificate",
+        "Land Record (7/12)",
+        "Bank Account",
+        "Aadhaar Card"
+      ],
+      "docsHi": [
+        "बुवाई प्रमाण पत्र",
+        "भूमि रिकॉर्ड (7/12)",
+        "बैंक खाता",
+        "आधार कार्ड"
+      ],
+      "docsMr": [
+        "पेरणी प्रमाणपत्र",
+        "जमीन नोंद (७/१२)",
+        "बँक खाते",
+        "आधार कार्ड"
+      ],
+      "category": "Insurance",
+      "categoryHi": "बीमा",
+      "categoryMr": "विमा",
+      "url": "https://pmfby.gov.in/",
+      "eligibility": "All farmers growing notified crops in notified areas",
+      "eligibilityHi": "अधिसूचित क्षेत्रों में अधिसूचित फसल उगाने वाले सभी किसान",
+      "eligibilityMr": "अधिसूचित क्षेत्रांमध्ये अधिसूचित पिके घेणारे सर्व शेतकरी",
+      "deadline": "Kharif: July 31, Rabi: December 31",
+      "deadlineHi": "खरीफ: 31 जुलाई, रबी: 31 दिसंबर",
+      "deadlineMr": "खरीप: ३१ जुलै, रब्बी: ३१ डिसेंबर",
+      "status": "active"
     },
     "s03": {
+      "id": "kcc",
       "name": "Kisan Credit Card (KCC)",
-      "params": { "state": "ALL", "district": "ALL", "crops": ["ALL"], "max_acres": 50.0 },
-      "benefit": "Credit limit for farm inputs at 4% interest",
-      "docs": ["Land Title", "ID Proof"],
-      "url": "https://www.jansamarth.in/kisan-credit-card-scheme"
+      "nameHi": "किसान क्रेडिट कार्ड",
+      "nameMr": "किसान क्रेडिट कार्ड (KCC)",
+      "description": "Provides farmers with timely access to credit for their agricultural and other needs",
+      "descriptionHi": "किसानों को कृषि और अन्य जरूरतों के लिए समय पर ऋण तक पहुंच प्रदान करता है",
+      "descriptionMr": "शेतकऱ्यांना कृषी आणि इतर गरजांसाठी वेळेवर कर्ज उपलब्ध करून देते",
+      "params": {
+        "state": "ALL",
+        "district": "ALL",
+        "crops": [
+          "ALL"
+        ],
+        "max_acres": 50,
+        "min_acres": 0
+      },
+      "benefit": "Credit limit at 4% interest rate, ₹3 lakh limit without collateral",
+      "benefitHi": "4% ब्याज दर पर क्रेडिट सीमा, बिना संपार्श्विक के ₹3 लाख की सीमा",
+      "benefitMr": "४% व्याजदरावर कर्ज मर्यादा, तारणाशिवाय ₹३ लाख मर्यादा",
+      "docs": [
+        "Land Title/Lease Agreement",
+        "ID Proof",
+        "Address Proof",
+        "Passport Photos"
+      ],
+      "docsHi": [
+        "भूमि स्वामित्व/पट्टा समझौता",
+        "पहचान प्रमाण",
+        "पता प्रमाण",
+        "पासपोर्ट फोटो"
+      ],
+      "docsMr": [
+        "जमीन मालकी/भाडेपट्टा करार",
+        "ओळखपत्र",
+        "पत्ता पुरावा",
+        "पासपोर्ट फोटो"
+      ],
+      "category": "Credit",
+      "categoryHi": "ऋण",
+      "categoryMr": "कर्ज",
+      "url": "https://www.jansamarth.in/kisan-credit-card-scheme",
+      "eligibility": "All farmers - owner cultivators, tenant farmers, sharecroppers",
+      "eligibilityHi": "सभी किसान - मालिक किसान, किरायेदार किसान, बटाईदार",
+      "eligibilityMr": "सर्व शेतकरी - मालक शेतकरी, भाडेकरू शेतकरी, वाट्यानी शेतकरी",
+      "deadline": "Ongoing - Apply at any bank",
+      "deadlineHi": "चालू - किसी भी बैंक में आवेदन करें",
+      "deadlineMr": "चालू - कोणत्याही बँकेत अर्ज करा",
+      "status": "active"
     },
     "s04": {
+      "id": "namo_drone_didi",
       "name": "Namo Drone Didi",
-      "params": { "state": ["Maharashtra", "Gujarat", "Uttar Pradesh", "Karnataka"], "district": "ALL", "crops": ["Cotton", "Sugarcane", "Paddy"], "max_acres": 10.0 },
-      "benefit": "80% subsidy for Women SHGs to buy drones",
-      "docs": ["SHG Certificate", "Aadhaar"],
-      "url": "https://www.india.gov.in/spotlight/details/namo-drone-didi"
+      "nameHi": "नमो ड्रोन दीदी",
+      "nameMr": "नमो ड्रोन दीदी",
+      "description": "Empowering women Self Help Groups with drones for agricultural purposes like spraying fertilizers and pesticides",
+      "descriptionHi": "उर्वरक और कीटनाशक छिड़काव जैसे कृषि उद्देश्यों के लिए ड्रोन से महिला स्वयं सहायता समूहों को सशक्त बनाना",
+      "descriptionMr": "खते आणि कीटकनाशके फवारणी यासारख्या कृषी कामांसाठी ड्रोनद्वारे महिला स्वयंसहाय्यता गटांचे सक्षमीकरण",
+      "params": {
+        "state": [
+          "Maharashtra",
+          "Gujarat",
+          "Uttar Pradesh",
+          "Karnataka",
+          "Madhya Pradesh",
+          "Rajasthan",
+          "Tamil Nadu"
+        ],
+        "district": "ALL",
+        "crops": [
+          "Cotton",
+          "Sugarcane",
+          "Rice",
+          "Wheat"
+        ],
+        "max_acres": 10,
+        "min_acres": 0
+      },
+      "benefit": "80% subsidy (up to ₹8 lakh) for Women SHGs to buy agricultural drones",
+      "benefitHi": "कृषि ड्रोन खरीदने के लिए महिला SHG को 80% सब्सिडी (₹8 लाख तक)",
+      "benefitMr": "कृषी ड्रोन खरेदीसाठी महिला बचत गटांना ८०% अनुदान (₹८ लाखांपर्यंत)",
+      "docs": [
+        "SHG Registration Certificate",
+        "Aadhaar Card",
+        "Training Certificate"
+      ],
+      "docsHi": [
+        "SHG पंजीकरण प्रमाण पत्र",
+        "आधार कार्ड",
+        "प्रशिक्षण प्रमाण पत्र"
+      ],
+      "docsMr": [
+        "बचत गट नोंदणी प्रमाणपत्र",
+        "आधार कार्ड",
+        "प्रशिक्षण प्रमाणपत्र"
+      ],
+      "category": "Technology",
+      "categoryHi": "प्रौद्योगिकी",
+      "categoryMr": "तंत्रज्ञान",
+      "url": "https://www.india.gov.in/spotlight/details/namo-drone-didi",
+      "eligibility": "Women Self Help Groups linked to DAY-NRLM",
+      "eligibilityHi": "DAY-NRLM से जुड़े महिला स्वयं सहायता समूह",
+      "eligibilityMr": "DAY-NRLM शी जोडलेले महिला स्वयंसहाय्यता गट",
+      "deadline": "March 31, 2026",
+      "deadlineHi": "31 मार्च, 2026",
+      "deadlineMr": "३१ मार्च, २०२६",
+      "status": "active"
     },
     "s05": {
+      "id": "pm_kusum",
       "name": "PM-KUSUM (Solar Pumps)",
-      "params": { "state": "ALL", "district": "ALL", "crops": ["ALL"], "max_acres": 15.0 },
-      "benefit": "60% subsidy on Solar Water Pumps",
-      "docs": ["Land Map", "Bank Copy"],
-      "url": "https://mnre.gov.in/en/pradhan-mantri-kisan-urja-suraksha-evam-utthaan-mahabhiyaan-pm-kusum/"
+      "nameHi": "पीएम-कुसुम (सोलर पंप)",
+      "nameMr": "पीएम-कुसुम (सौर पंप)",
+      "description": "Promotes solar energy usage in agriculture by providing subsidized solar pumps and grid-connected solar plants",
+      "descriptionHi": "सब्सिडी वाले सोलर पंप और ग्रिड से जुड़े सोलर प्लांट प्रदान करके कृषि में सौर ऊर्जा के उपयोग को बढ़ावा देता है",
+      "descriptionMr": "अनुदानित सौर पंप आणि ग्रिडशी जोडलेले सौर प्रकल्प पुरवून शेतीत सौर ऊर्जेच्या वापराला प्रोत्साहन देते",
+      "params": {
+        "state": "ALL",
+        "district": "ALL",
+        "crops": [
+          "ALL"
+        ],
+        "max_acres": 15,
+        "min_acres": 0
+      },
+      "benefit": "60% subsidy on Solar Water Pumps (30% Central + 30% State)",
+      "benefitHi": "सोलर वॉटर पंप पर 60% सब्सिडी (30% केंद्र + 30% राज्य)",
+      "benefitMr": "सौर पाणी पंपांवर ६०% अनुदान (३०% केंद्र + ३०% राज्य)",
+      "docs": [
+        "Land Map/Records",
+        "Bank Account Copy",
+        "Aadhaar Card",
+        "Electricity Bill"
+      ],
+      "docsHi": [
+        "भूमि मानचित्र/रिकॉर्ड",
+        "बैंक खाता प्रति",
+        "आधार कार्ड",
+        "बिजली बिल"
+      ],
+      "docsMr": [
+        "जमीन नकाशा/नोंदी",
+        "बँक खाते प्रत",
+        "आधार कार्ड",
+        "वीज बिल"
+      ],
+      "category": "Energy",
+      "categoryHi": "ऊर्जा",
+      "categoryMr": "ऊर्जा",
+      "url": "https://mnre.gov.in/en/pradhan-mantri-kisan-urja-suraksha-evam-utthaan-mahabhiyaan-pm-kusum/",
+      "eligibility": "Individual farmers, farmer groups, cooperatives, panchayats",
+      "eligibilityHi": "व्यक्तिगत किसान, किसान समूह, सहकारी समितियां, पंचायतें",
+      "eligibilityMr": "वैयक्तिक शेतकरी, शेतकरी गट, सहकारी संस्था, पंचायती",
+      "deadline": "Ongoing",
+      "deadlineHi": "चालू",
+      "deadlineMr": "चालू",
+      "status": "active"
     },
     "s06": {
-      "name": "Soil Health Card",
-      "params": { "state": "ALL", "district": "ALL", "crops": ["ALL"], "max_acres": 100.0 },
-      "benefit": "Free soil nutrient report",
-      "docs": ["Aadhaar"],
-      "url": "https://soilhealth.dac.gov.in/"
+      "id": "soil_health_card",
+      "name": "Soil Health Card Scheme",
+      "nameHi": "मृदा स्वास्थ्य कार्ड योजना",
+      "nameMr": "मृदा आरोग्य कार्ड योजना",
+      "description": "Provides farmers with soil health cards containing crop-wise recommendations on nutrients and fertilizers",
+      "descriptionHi": "किसानों को पोषक तत्वों और उर्वरकों पर फसलवार सिफारिशों वाले मृदा स्वास्थ्य कार्ड प्रदान करता है",
+      "descriptionMr": "शेतकऱ्यांना पोषक तत्त्वे आणि खतांवरील पीकनिहाय शिफारसी असलेले मृदा आरोग्य कार्ड प्रदान करते",
+      "params": {
+        "state": "ALL",
+        "district": "ALL",
+        "crops": [
+          "ALL"
+        ],
+        "max_acres": 100,
+        "min_acres": 0
+      },
+      "benefit": "Free comprehensive soil nutrient report every 2 years",
+      "benefitHi": "हर 2 साल में मुफ्त व्यापक मृदा पोषक तत्व रिपोर्ट",
+      "benefitMr": "दर २ वर्षांनी मोफत सर्वसमावेशक मृदा पोषक तत्त्व अहवाल",
+      "docs": [
+        "Aadhaar Card",
+        "Land Details"
+      ],
+      "docsHi": [
+        "आधार कार्ड",
+        "भूमि विवरण"
+      ],
+      "docsMr": [
+        "आधार कार्ड",
+        "जमीन तपशील"
+      ],
+      "category": "Soil Health",
+      "categoryHi": "मृदा स्वास्थ्य",
+      "categoryMr": "मृदा आरोग्य",
+      "url": "https://soilhealth.dac.gov.in/",
+      "eligibility": "All farmers with agricultural land",
+      "eligibilityHi": "कृषि भूमि वाले सभी किसान",
+      "eligibilityMr": "शेतजमीन असलेले सर्व शेतकरी",
+      "deadline": "Ongoing",
+      "deadlineHi": "चालू",
+      "deadlineMr": "चालू",
+      "status": "active"
     },
     "s07": {
+      "id": "pkvy",
       "name": "Paramparagat Krishi Vikas Yojana",
-      "params": { "state": ["Uttarakhand", "Sikkim", "Maharashtra"], "district": "ALL", "crops": ["Organic Crops"], "max_acres": 5.0 },
-      "benefit": "₹50,000/ha for organic farming",
-      "docs": ["Aadhaar", "Organic Cluster ID"],
-      "url": "https://rkvy.da.gov.in/"
+      "nameHi": "परंपरागत कृषि विकास योजना",
+      "nameMr": "परंपरागत कृषी विकास योजना",
+      "description": "Promotes organic farming through cluster approach and PGS certification",
+      "descriptionHi": "क्लस्टर दृष्टिकोण और PGS प्रमाणन के माध्यम से जैविक खेती को बढ़ावा देता है",
+      "descriptionMr": "समूह दृष्टिकोन आणि PGS प्रमाणनाद्वारे सेंद्रिय शेतीला प्रोत्साहन देते",
+      "params": {
+        "state": [
+          "Uttarakhand",
+          "Sikkim",
+          "Maharashtra",
+          "Karnataka",
+          "Madhya Pradesh",
+          "Kerala",
+          "Tamil Nadu",
+          "Andhra Pradesh"
+        ],
+        "district": "ALL",
+        "crops": [
+          "Vegetables",
+          "Fruits",
+          "Spices",
+          "Pulses",
+          "Oilseeds"
+        ],
+        "max_acres": 5,
+        "min_acres": 0.5
+      },
+      "benefit": "₹50,000/hectare over 3 years for organic farming adoption",
+      "benefitHi": "जैविक खेती अपनाने के लिए 3 वर्षों में ₹50,000/हेक्टेयर",
+      "benefitMr": "सेंद्रिय शेती स्वीकारण्यासाठी ३ वर्षांत ₹५०,०००/हेक्टर",
+      "docs": [
+        "Aadhaar Card",
+        "Organic Cluster Registration",
+        "Land Records"
+      ],
+      "docsHi": [
+        "आधार कार्ड",
+        "जैविक क्लस्टर पंजीकरण",
+        "भूमि रिकॉर्ड"
+      ],
+      "docsMr": [
+        "आधार कार्ड",
+        "सेंद्रिय समूह नोंदणी",
+        "जमीन नोंदी"
+      ],
+      "category": "Organic",
+      "categoryHi": "जैविक",
+      "categoryMr": "सेंद्रिय",
+      "url": "https://pgsindia-ncof.gov.in/pkvy/",
+      "eligibility": "Farmers forming clusters of 50+ hectares for organic farming",
+      "eligibilityHi": "जैविक खेती के लिए 50+ हेक्टेयर के क्लस्टर बनाने वाले किसान",
+      "eligibilityMr": "सेंद्रिय शेतीसाठी ५०+ हेक्टर समूह तयार करणारे शेतकरी",
+      "deadline": "Ongoing",
+      "deadlineHi": "चालू",
+      "deadlineMr": "चालू",
+      "status": "active"
     },
     "s08": {
-      "name": "Agri-Infrastructure Fund",
-      "params": { "state": "ALL", "district": "ALL", "crops": ["ALL"], "max_acres": 100.0 },
-      "benefit": "3% interest subvention on infra loans",
-      "docs": ["Detailed Project Report"],
-      "url": "https://agriinfra.dac.gov.in/"
+      "id": "aif",
+      "name": "Agriculture Infrastructure Fund",
+      "nameHi": "कृषि अवसंरचना कोष",
+      "nameMr": "कृषी पायाभूत सुविधा निधी",
+      "description": "Financing facility for post-harvest management infrastructure and community farming assets",
+      "descriptionHi": "फसल कटाई के बाद प्रबंधन अवसंरचना और सामुदायिक कृषि संपत्तियों के लिए वित्तपोषण सुविधा",
+      "descriptionMr": "कापणीनंतरचे व्यवस्थापन पायाभूत सुविधा आणि सामुदायिक शेती मालमत्तांसाठी वित्तपुरवठा",
+      "params": {
+        "state": "ALL",
+        "district": "ALL",
+        "crops": [
+          "ALL"
+        ],
+        "max_acres": 100,
+        "min_acres": 0
+      },
+      "benefit": "3% interest subvention on loans up to ₹2 crore, Credit Guarantee coverage",
+      "benefitHi": "₹2 करोड़ तक के ऋण पर 3% ब्याज सब्सिडी, क्रेडिट गारंटी कवरेज",
+      "benefitMr": "₹२ कोटीपर्यंतच्या कर्जावर ३% व्याज अनुदान, क्रेडिट गॅरंटी",
+      "docs": [
+        "Project Report",
+        "Land Documents",
+        "Bank Account",
+        "GST Registration (if applicable)"
+      ],
+      "docsHi": [
+        "परियोजना रिपोर्ट",
+        "भूमि दस्तावेज",
+        "बैंक खाता",
+        "GST पंजीकरण (यदि लागू हो)"
+      ],
+      "docsMr": [
+        "प्रकल्प अहवाल",
+        "जमीन दस्तऐवज",
+        "बँक खाते",
+        "GST नोंदणी (लागू असल्यास)"
+      ],
+      "category": "Infrastructure",
+      "categoryHi": "अवसंरचना",
+      "categoryMr": "पायाभूत सुविधा",
+      "url": "https://agriinfra.dac.gov.in/",
+      "eligibility": "Farmers, FPOs, Agri-entrepreneurs, Start-ups, Central/State agencies",
+      "eligibilityHi": "किसान, FPO, कृषि-उद्यमी, स्टार्ट-अप, केंद्र/राज्य एजेंसियां",
+      "eligibilityMr": "शेतकरी, FPO, कृषी-उद्योजक, स्टार्ट-अप, केंद्र/राज्य संस्था",
+      "deadline": "March 31, 2029",
+      "deadlineHi": "31 मार्च, 2029",
+      "deadlineMr": "३१ मार्च, २०२९",
+      "status": "active"
     },
     "s09": {
+      "id": "nbm",
       "name": "National Bamboo Mission",
-      "params": { "state": ["Assam", "Madhya Pradesh", "Kerala"], "district": "ALL", "crops": ["Bamboo"], "max_acres": 10.0 },
-      "benefit": "Financial help for bamboo cultivation",
-      "docs": ["Land Possession Cert"],
-      "url": "https://nbm.da.gov.in/"
+      "nameHi": "राष्ट्रीय बांस मिशन",
+      "nameMr": "राष्ट्रीय बांबू मिशन",
+      "description": "Promotes bamboo cultivation for sustainable development and farmer income enhancement",
+      "descriptionHi": "सतत विकास और किसान आय वृद्धि के लिए बांस की खेती को बढ़ावा देता है",
+      "descriptionMr": "शाश्वत विकास आणि शेतकरी उत्पन्न वाढीसाठी बांबू लागवडीला प्रोत्साहन देते",
+      "params": {
+        "state": [
+          "Assam",
+          "Madhya Pradesh",
+          "Kerala",
+          "Maharashtra",
+          "Odisha",
+          "Karnataka",
+          "Tripura",
+          "Meghalaya",
+          "Nagaland"
+        ],
+        "district": "ALL",
+        "crops": [
+          "Bamboo"
+        ],
+        "max_acres": 10,
+        "min_acres": 0.5
+      },
+      "benefit": "50% subsidy on bamboo plantation cost, ₹240/plant for first 3 years",
+      "benefitHi": "बांस रोपण लागत पर 50% सब्सिडी, पहले 3 वर्षों के लिए ₹240/पौधा",
+      "benefitMr": "बांबू लागवड खर्चावर ५०% अनुदान, पहिल्या ३ वर्षांसाठी ₹२४०/रोप",
+      "docs": [
+        "Land Possession Certificate",
+        "Aadhaar Card",
+        "Bank Account"
+      ],
+      "docsHi": [
+        "भूमि कब्जा प्रमाण पत्र",
+        "आधार कार्ड",
+        "बैंक खाता"
+      ],
+      "docsMr": [
+        "जमीन कब्जा प्रमाणपत्र",
+        "आधार कार्ड",
+        "बँक खाते"
+      ],
+      "category": "Plantation",
+      "categoryHi": "वृक्षारोपण",
+      "categoryMr": "वृक्षारोपण",
+      "url": "https://nbm.nic.in/",
+      "eligibility": "Individual farmers with suitable land for bamboo cultivation",
+      "eligibilityHi": "बांस की खेती के लिए उपयुक्त भूमि वाले व्यक्तिगत किसान",
+      "eligibilityMr": "बांबू लागवडीसाठी योग्य जमीन असलेले वैयक्तिक शेतकरी",
+      "deadline": "Ongoing",
+      "deadlineHi": "चालू",
+      "deadlineMr": "चालू",
+      "status": "active"
     },
     "s10": {
+      "id": "pkcc",
       "name": "Pashu Kisan Credit Card",
-      "params": { "state": ["Haryana", "Punjab", "Uttar Pradesh"], "district": "ALL", "crops": ["Livestock"], "max_acres": 0.0 },
-      "benefit": "Credit for animal husbandry",
-      "docs": ["Veterinary Certificate"],
-      "url": "https://dahd.gov.in/division/kcc"
+      "nameHi": "पशु किसान क्रेडिट कार्ड",
+      "nameMr": "पशू किसान क्रेडिट कार्ड",
+      "description": "Credit facility for animal husbandry and dairy farming activities",
+      "descriptionHi": "पशुपालन और डेयरी फार्मिंग गतिविधियों के लिए क्रेडिट सुविधा",
+      "descriptionMr": "पशुसंवर्धन आणि दुग्ध व्यवसाय क्रियाकलापांसाठी कर्ज सुविधा",
+      "params": {
+        "state": [
+          "Haryana",
+          "Punjab",
+          "Uttar Pradesh",
+          "Rajasthan",
+          "Gujarat",
+          "Maharashtra",
+          "Madhya Pradesh"
+        ],
+        "district": "ALL",
+        "crops": [
+          "Livestock",
+          "Dairy"
+        ],
+        "max_acres": 0,
+        "min_acres": 0
+      },
+      "benefit": "Credit for livestock purchase: ₹40,783/buffalo, ₹16,000/cow, ₹4,063/sheep/goat",
+      "benefitHi": "पशुधन खरीद के लिए ऋण: ₹40,783/भैंस, ₹16,000/गाय, ₹4,063/भेड़/बकरी",
+      "benefitMr": "पशुधन खरेदीसाठी कर्ज: ₹४०,७८३/म्हैस, ₹१६,०००/गाय, ₹४,०६३/मेंढी/शेळी",
+      "docs": [
+        "Veterinary Certificate",
+        "Aadhaar Card",
+        "Bank Account",
+        "ID Proof"
+      ],
+      "docsHi": [
+        "पशु चिकित्सा प्रमाण पत्र",
+        "आधार कार्ड",
+        "बैंक खाता",
+        "पहचान प्रमाण"
+      ],
+      "docsMr": [
+        "पशुवैद्यकीय प्रमाणपत्र",
+        "आधार कार्ड",
+        "बँक खाते",
+        "ओळखपत्र"
+      ],
+      "category": "Credit",
+      "categoryHi": "ऋण",
+      "categoryMr": "कर्ज",
+      "url": "https://dahd.gov.in/division/kcc",
+      "eligibility": "Farmers engaged in animal husbandry, poultry, fisheries",
+      "eligibilityHi": "पशुपालन, मुर्गीपालन, मत्स्य पालन में लगे किसान",
+      "eligibilityMr": "पशुसंवर्धन, कुक्कुटपालन, मत्स्यपालन करणारे शेतकरी",
+      "deadline": "Ongoing",
+      "deadlineHi": "चालू",
+      "deadlineMr": "चालू",
+      "status": "active"
     },
     "s11": {
-      "name": "e-NAM Trading",
-      "params": { "state": "ALL", "district": "ALL", "crops": ["Grains", "Vegetables", "Fruits"], "max_acres": 100.0 },
-      "benefit": "Direct online selling to Mandis",
-      "docs": ["Bank Details", "Aadhaar"],
-      "url": "https://enam.gov.in/"
+      "id": "enam",
+      "name": "e-NAM (National Agriculture Market)",
+      "nameHi": "ई-नाम (राष्ट्रीय कृषि बाजार)",
+      "nameMr": "ई-नाम (राष्ट्रीय कृषी बाजार)",
+      "description": "Online trading platform for agricultural commodities connecting farmers directly to markets",
+      "descriptionHi": "कृषि वस्तुओं के लिए ऑनलाइन ट्रेडिंग प्लेटफॉर्म जो किसानों को सीधे बाजारों से जोड़ता है",
+      "descriptionMr": "शेतकऱ्यांना थेट बाजाराशी जोडणारे कृषी उत्पादनांसाठी ऑनलाइन व्यापार व्यासपीठ",
+      "params": {
+        "state": "ALL",
+        "district": "ALL",
+        "crops": [
+          "Rice",
+          "Wheat",
+          "Vegetables",
+          "Fruits",
+          "Pulses",
+          "Oilseeds",
+          "Spices"
+        ],
+        "max_acres": 100,
+        "min_acres": 0
+      },
+      "benefit": "Direct selling to Mandis across India, better price discovery, reduced intermediaries",
+      "benefitHi": "पूरे भारत में मंडियों को सीधे बेचना, बेहतर मूल्य खोज, कम बिचौलिए",
+      "benefitMr": "संपूर्ण भारतातील बाजारपेठांमध्ये थेट विक्री, चांगले दर शोध, कमी मध्यस्थ",
+      "docs": [
+        "Bank Account Details",
+        "Aadhaar Card",
+        "Mobile Number"
+      ],
+      "docsHi": [
+        "बैंक खाता विवरण",
+        "आधार कार्ड",
+        "मोबाइल नंबर"
+      ],
+      "docsMr": [
+        "बँक खाते तपशील",
+        "आधार कार्ड",
+        "मोबाइल क्रमांक"
+      ],
+      "category": "Market Access",
+      "categoryHi": "बाजार पहुंच",
+      "categoryMr": "बाजार प्रवेश",
+      "url": "https://enam.gov.in/",
+      "eligibility": "All farmers with produce to sell",
+      "eligibilityHi": "बेचने के लिए उपज वाले सभी किसान",
+      "eligibilityMr": "विक्रीसाठी उत्पादन असलेले सर्व शेतकरी",
+      "deadline": "Ongoing",
+      "deadlineHi": "चालू",
+      "deadlineMr": "चालू",
+      "status": "active"
     },
     "s12": {
-      "name": "SMAM (Machinery Subsidy)",
-      "params": { "state": "ALL", "district": "ALL", "crops": ["ALL"], "max_acres": 100.0 },
-      "benefit": "40-50% subsidy on Tractors/Harvesters",
-      "docs": ["Quotation", "Land Record"],
-      "url": "https://farmech.dac.gov.in/"
+      "id": "smam",
+      "name": "SMAM (Farm Machinery Subsidy)",
+      "nameHi": "SMAM (कृषि मशीनरी सब्सिडी)",
+      "nameMr": "SMAM (कृषी यंत्रसामग्री अनुदान)",
+      "description": "Subsidy for purchase of agricultural machinery and implements for farm mechanization",
+      "descriptionHi": "कृषि मशीनीकरण के लिए कृषि मशीनरी और उपकरणों की खरीद पर सब्सिडी",
+      "descriptionMr": "शेती यांत्रिकीकरणासाठी कृषी यंत्रसामग्री आणि उपकरणांच्या खरेदीवर अनुदान",
+      "params": {
+        "state": "ALL",
+        "district": "ALL",
+        "crops": [
+          "ALL"
+        ],
+        "max_acres": 100,
+        "min_acres": 0
+      },
+      "benefit": "40-50% subsidy on Tractors, Harvesters, Tillers, and other machinery",
+      "benefitHi": "ट्रैक्टर, हार्वेस्टर, टिलर और अन्य मशीनरी पर 40-50% सब्सिडी",
+      "benefitMr": "ट्रॅक्टर, हार्वेस्टर, टिलर आणि इतर यंत्रसामग्रीवर ४०-५०% अनुदान",
+      "docs": [
+        "Quotation from Dealer",
+        "Land Record",
+        "Aadhaar Card",
+        "Bank Account"
+      ],
+      "docsHi": [
+        "डीलर से कोटेशन",
+        "भूमि रिकॉर्ड",
+        "आधार कार्ड",
+        "बैंक खाता"
+      ],
+      "docsMr": [
+        "डीलरकडून कोटेशन",
+        "जमीन नोंद",
+        "आधार कार्ड",
+        "बँक खाते"
+      ],
+      "category": "Machinery",
+      "categoryHi": "मशीनरी",
+      "categoryMr": "यंत्रसामग्री",
+      "url": "https://farmech.dac.gov.in/",
+      "eligibility": "All farmers, preference to SC/ST and small/marginal farmers",
+      "eligibilityHi": "सभी किसान, SC/ST और छोटे/सीमांत किसानों को वरीयता",
+      "eligibilityMr": "सर्व शेतकरी, SC/ST आणि छोट्या/सीमांत शेतकऱ्यांना प्राधान्य",
+      "deadline": "Ongoing",
+      "deadlineHi": "चालू",
+      "deadlineMr": "चालू",
+      "status": "active"
     },
     "s13": {
+      "id": "pmksy",
       "name": "PM Krishi Sinchayee Yojana",
-      "params": { "state": "ALL", "district": "ALL", "crops": ["Sugarcane", "Fruit Orchards"], "max_acres": 12.0 },
-      "benefit": "Subsidy for Drip/Sprinkler systems",
-      "docs": ["Electricity Bill", "Land Certificate"],
-      "url": "https://pmksy.gov.in/"
+      "nameHi": "पीएम कृषि सिंचाई योजना",
+      "nameMr": "पीएम कृषी सिंचन योजना",
+      "description": "Promotes efficient water management through micro irrigation systems",
+      "descriptionHi": "सूक्ष्म सिंचाई प्रणालियों के माध्यम से कुशल जल प्रबंधन को बढ़ावा देता है",
+      "descriptionMr": "सूक्ष्म सिंचन प्रणालींद्वारे कार्यक्षम पाणी व्यवस्थापनाला प्रोत्साहन देते",
+      "params": {
+        "state": "ALL",
+        "district": "ALL",
+        "crops": [
+          "Sugarcane",
+          "Fruits",
+          "Vegetables",
+          "Cotton",
+          "Spices"
+        ],
+        "max_acres": 12,
+        "min_acres": 0.5
+      },
+      "benefit": "55-75% subsidy on Drip/Sprinkler irrigation systems",
+      "benefitHi": "ड्रिप/स्प्रिंकलर सिंचाई प्रणाली पर 55-75% सब्सिडी",
+      "benefitMr": "ठिबक/स्प्रिंकलर सिंचन प्रणालीवर ५५-७५% अनुदान",
+      "docs": [
+        "Land Certificate",
+        "Electricity Bill/Connection",
+        "Bank Account",
+        "Aadhaar Card"
+      ],
+      "docsHi": [
+        "भूमि प्रमाण पत्र",
+        "बिजली बिल/कनेक्शन",
+        "बैंक खाता",
+        "आधार कार्ड"
+      ],
+      "docsMr": [
+        "जमीन प्रमाणपत्र",
+        "वीज बिल/जोडणी",
+        "बँक खाते",
+        "आधार कार्ड"
+      ],
+      "category": "Irrigation",
+      "categoryHi": "सिंचाई",
+      "categoryMr": "सिंचन",
+      "url": "https://pmksy.gov.in/",
+      "eligibility": "Farmers with water source availability",
+      "eligibilityHi": "जल स्रोत उपलब्धता वाले किसान",
+      "eligibilityMr": "पाण्याचा स्रोत उपलब्ध असलेले शेतकरी",
+      "deadline": "Ongoing",
+      "deadlineHi": "चालू",
+      "deadlineMr": "चालू",
+      "status": "active"
     },
     "s14": {
-      "name": "National Beekeeping Mission",
-      "params": { "state": ["Bihar", "Uttar Pradesh", "Rajasthan"], "district": "ALL", "crops": ["Honey"], "max_acres": 2.0 },
-      "benefit": "Support for setting up Beehives",
-      "docs": ["Training Certificate"],
-      "url": "https://nbb.gov.in/"
+      "id": "nbm_honey",
+      "name": "National Beekeeping & Honey Mission",
+      "nameHi": "राष्ट्रीय मधुमक्खी पालन और शहद मिशन",
+      "nameMr": "राष्ट्रीय मधुमक्षिकापालन आणि मध मिशन",
+      "description": "Promotes scientific beekeeping for additional income and crop pollination",
+      "descriptionHi": "अतिरिक्त आय और फसल परागण के लिए वैज्ञानिक मधुमक्खी पालन को बढ़ावा देता है",
+      "descriptionMr": "अतिरिक्त उत्पन्न आणि पीक परागीभवनासाठी शास्त्रीय मधुमक्षिकापालनाला प्रोत्साहन",
+      "params": {
+        "state": [
+          "Bihar",
+          "Uttar Pradesh",
+          "Rajasthan",
+          "West Bengal",
+          "Punjab",
+          "Haryana",
+          "Himachal Pradesh"
+        ],
+        "district": "ALL",
+        "crops": [
+          "Honey",
+          "Fruits",
+          "Vegetables"
+        ],
+        "max_acres": 5,
+        "min_acres": 0
+      },
+      "benefit": "₹1,500/hive box subsidy, Training support, Marketing assistance",
+      "benefitHi": "₹1,500/छत्ता बॉक्स सब्सिडी, प्रशिक्षण सहायता, विपणन सहायता",
+      "benefitMr": "₹१,५००/पोळा बॉक्स अनुदान, प्रशिक्षण सहाय्य, विपणन सहाय्य",
+      "docs": [
+        "Training Certificate",
+        "Aadhaar Card",
+        "Bank Account"
+      ],
+      "docsHi": [
+        "प्रशिक्षण प्रमाण पत्र",
+        "आधार कार्ड",
+        "बैंक खाता"
+      ],
+      "docsMr": [
+        "प्रशिक्षण प्रमाणपत्र",
+        "आधार कार्ड",
+        "बँक खाते"
+      ],
+      "category": "Allied Activities",
+      "categoryHi": "संबद्ध गतिविधियां",
+      "categoryMr": "संलग्न क्रियाकलाप",
+      "url": "https://nbb.gov.in/",
+      "eligibility": "Farmers willing to adopt beekeeping, trained in beekeeping",
+      "eligibilityHi": "मधुमक्खी पालन अपनाने के इच्छुक किसान, मधुमक्खी पालन में प्रशिक्षित",
+      "eligibilityMr": "मधुमक्षिकापालन स्वीकारण्यास इच्छुक, प्रशिक्षित शेतकरी",
+      "deadline": "Ongoing",
+      "deadlineHi": "चालू",
+      "deadlineMr": "चालू",
+      "status": "active"
     },
     "s15": {
-      "name": "Horticulture Cluster Development",
-      "params": { "state": ["Himachal Pradesh", "Jammu & Kashmir", "Maharashtra"], "district": "ALL", "crops": ["Apple", "Mango", "Grapes"], "max_acres": 50.0 },
-      "benefit": "Financial aid for fruit cluster exports",
-      "docs": ["Cluster Member ID"],
-      "url": "https://nhb.gov.in/"
+      "id": "hcdp",
+      "name": "Horticulture Cluster Development Programme",
+      "nameHi": "बागवानी क्लस्टर विकास कार्यक्रम",
+      "nameMr": "फलोत्पादन क्लस्टर विकास कार्यक्रम",
+      "description": "Development of horticulture clusters for quality production and export",
+      "descriptionHi": "गुणवत्तापूर्ण उत्पादन और निर्यात के लिए बागवानी क्लस्टर का विकास",
+      "descriptionMr": "गुणवत्तापूर्ण उत्पादन आणि निर्यातीसाठी फलोत्पादन क्लस्टरचा विकास",
+      "params": {
+        "state": [
+          "Himachal Pradesh",
+          "Jammu & Kashmir",
+          "Maharashtra",
+          "Karnataka",
+          "Andhra Pradesh",
+          "Tamil Nadu"
+        ],
+        "district": "ALL",
+        "crops": [
+          "Apple",
+          "Mango",
+          "Grapes",
+          "Banana",
+          "Pomegranate",
+          "Citrus"
+        ],
+        "max_acres": 50,
+        "min_acres": 1
+      },
+      "benefit": "Financial assistance for infrastructure, packaging, marketing support",
+      "benefitHi": "अवसंरचना, पैकेजिंग, विपणन सहायता के लिए वित्तीय सहायता",
+      "benefitMr": "पायाभूत सुविधा, पॅकेजिंग, विपणन सहाय्यासाठी आर्थिक मदत",
+      "docs": [
+        "Cluster Member ID",
+        "Land Records",
+        "Bank Account",
+        "Aadhaar Card"
+      ],
+      "docsHi": [
+        "क्लस्टर सदस्य आईडी",
+        "भूमि रिकॉर्ड",
+        "बैंक खाता",
+        "आधार कार्ड"
+      ],
+      "docsMr": [
+        "क्लस्टर सदस्य आयडी",
+        "जमीन नोंदी",
+        "बँक खाते",
+        "आधार कार्ड"
+      ],
+      "category": "Horticulture",
+      "categoryHi": "बागवानी",
+      "categoryMr": "फलोत्पादन",
+      "url": "https://nhb.gov.in/",
+      "eligibility": "Farmers in identified horticulture clusters",
+      "eligibilityHi": "पहचाने गए बागवानी क्लस्टर में किसान",
+      "eligibilityMr": "ओळखलेल्या फलोत्पादन क्लस्टरमधील शेतकरी",
+      "deadline": "Ongoing",
+      "deadlineHi": "चालू",
+      "deadlineMr": "चालू",
+      "status": "active"
+    },
+    "s16": {
+      "id": "rkvy",
+      "name": "Rashtriya Krishi Vikas Yojana",
+      "nameHi": "राष्ट्रीय कृषि विकास योजना",
+      "nameMr": "राष्ट्रीय कृषी विकास योजना",
+      "description": "Umbrella scheme for holistic development of agriculture and allied sectors",
+      "descriptionHi": "कृषि और संबद्ध क्षेत्रों के समग्र विकास के लिए छत्र योजना",
+      "descriptionMr": "कृषी आणि संलग्न क्षेत्रांच्या सर्वांगीण विकासासाठी छत्र योजना",
+      "params": {
+        "state": "ALL",
+        "district": "ALL",
+        "crops": [
+          "ALL"
+        ],
+        "max_acres": 100,
+        "min_acres": 0
+      },
+      "benefit": "Project-based assistance, 60:40 Centre-State funding ratio",
+      "benefitHi": "परियोजना आधारित सहायता, 60:40 केंद्र-राज्य वित्त पोषण अनुपात",
+      "benefitMr": "प्रकल्प-आधारित सहाय्य, ६०:४० केंद्र-राज्य वित्तपुरवठा गुणोत्तर",
+      "docs": [
+        "Project Proposal",
+        "Land Documents",
+        "Bank Account",
+        "Aadhaar Card"
+      ],
+      "docsHi": [
+        "परियोजना प्रस्ताव",
+        "भूमि दस्तावेज",
+        "बैंक खाता",
+        "आधार कार्ड"
+      ],
+      "docsMr": [
+        "प्रकल्प प्रस्ताव",
+        "जमीन दस्तऐवज",
+        "बँक खाते",
+        "आधार कार्ड"
+      ],
+      "category": "Development",
+      "categoryHi": "विकास",
+      "categoryMr": "विकास",
+      "url": "https://rkvy.nic.in/",
+      "eligibility": "Farmers, FPOs, Agricultural institutions",
+      "eligibilityHi": "किसान, FPO, कृषि संस्थान",
+      "eligibilityMr": "शेतकरी, FPO, कृषी संस्था",
+      "deadline": "Ongoing",
+      "deadlineHi": "चालू",
+      "deadlineMr": "चालू",
+      "status": "active"
+    },
+    "s17": {
+      "id": "pmkmy",
+      "name": "PM Kisan Maandhan Yojana",
+      "nameHi": "पीएम किसान मानधन योजना",
+      "nameMr": "पीएम किसान मानधन योजना",
+      "description": "Pension scheme for small and marginal farmers providing old age security",
+      "descriptionHi": "छोटे और सीमांत किसानों के लिए वृद्धावस्था सुरक्षा प्रदान करने वाली पेंशन योजना",
+      "descriptionMr": "छोट्या आणि सीमांत शेतकऱ्यांसाठी वृद्धापकाळ सुरक्षा प्रदान करणारी पेन्शन योजना",
+      "params": {
+        "state": "ALL",
+        "district": "ALL",
+        "crops": [
+          "ALL"
+        ],
+        "max_acres": 5,
+        "min_acres": 0
+      },
+      "benefit": "₹3,000/month pension after age 60, with matching government contribution",
+      "benefitHi": "60 वर्ष की आयु के बाद ₹3,000/माह पेंशन, सरकारी मिलान योगदान के साथ",
+      "benefitMr": "६० वर्षांनंतर ₹३,०००/महिना पेन्शन, सरकारी मॅचिंग योगदानासह",
+      "docs": [
+        "Aadhaar Card",
+        "Land Records",
+        "Bank Account",
+        "Age Proof"
+      ],
+      "docsHi": [
+        "आधार कार्ड",
+        "भूमि रिकॉर्ड",
+        "बैंक खाता",
+        "आयु प्रमाण"
+      ],
+      "docsMr": [
+        "आधार कार्ड",
+        "जमीन नोंदी",
+        "बँक खाते",
+        "वय पुरावा"
+      ],
+      "category": "Pension",
+      "categoryHi": "पेंशन",
+      "categoryMr": "पेन्शन",
+      "url": "https://pmkmy.gov.in/",
+      "eligibility": "Small & Marginal farmers (land up to 2 hectares) aged 18-40 years",
+      "eligibilityHi": "छोटे और सीमांत किसान (2 हेक्टेयर तक भूमि) आयु 18-40 वर्ष",
+      "eligibilityMr": "छोटे व सीमांत शेतकरी (२ हेक्टरपर्यंत जमीन) वय १८-४० वर्षे",
+      "deadline": "Ongoing",
+      "deadlineHi": "चालू",
+      "deadlineMr": "चालू",
+      "status": "active"
+    },
+    "s18": {
+      "id": "movcdner",
+      "name": "Mission for Integrated Development of Horticulture",
+      "nameHi": "बागवानी के एकीकृत विकास के लिए मिशन",
+      "nameMr": "फलोत्पादन एकात्मिक विकास मिशन",
+      "description": "Comprehensive scheme for holistic growth of horticulture sector",
+      "descriptionHi": "बागवानी क्षेत्र के समग्र विकास के लिए व्यापक योजना",
+      "descriptionMr": "फलोत्पादन क्षेत्राच्या सर्वांगीण विकासासाठी सर्वसमावेशक योजना",
+      "params": {
+        "state": "ALL",
+        "district": "ALL",
+        "crops": [
+          "Fruits",
+          "Vegetables",
+          "Spices",
+          "Flowers",
+          "Medicinal Plants"
+        ],
+        "max_acres": 25,
+        "min_acres": 0.5
+      },
+      "benefit": "40-50% subsidy on establishing orchards, nurseries, and greenhouses",
+      "benefitHi": "बाग, नर्सरी और ग्रीनहाउस स्थापित करने पर 40-50% सब्सिडी",
+      "benefitMr": "फळबागा, रोपवाटिका आणि हरितगृहे स्थापन करण्यावर ४०-५०% अनुदान",
+      "docs": [
+        "Land Records",
+        "Project Plan",
+        "Bank Account",
+        "Aadhaar Card"
+      ],
+      "docsHi": [
+        "भूमि रिकॉर्ड",
+        "परियोजना योजना",
+        "बैंक खाता",
+        "आधार कार्ड"
+      ],
+      "docsMr": [
+        "जमीन नोंदी",
+        "प्रकल्प योजना",
+        "बँक खाते",
+        "आधार कार्ड"
+      ],
+      "category": "Horticulture",
+      "categoryHi": "बागवानी",
+      "categoryMr": "फलोत्पादन",
+      "url": "https://midh.gov.in/",
+      "eligibility": "Individual farmers, groups, cooperatives interested in horticulture",
+      "eligibilityHi": "बागवानी में रुचि रखने वाले व्यक्तिगत किसान, समूह, सहकारी समितियां",
+      "eligibilityMr": "फलोत्पादनात रस असलेले वैयक्तिक शेतकरी, गट, सहकारी संस्था",
+      "deadline": "Ongoing",
+      "deadlineHi": "चालू",
+      "deadlineMr": "चालू",
+      "status": "active"
+    },
+    "s19": {
+      "id": "nmsa",
+      "name": "National Mission on Sustainable Agriculture",
+      "nameHi": "सतत कृषि पर राष्ट्रीय मिशन",
+      "nameMr": "शाश्वत कृषी राष्ट्रीय मिशन",
+      "description": "Promotes sustainable farming practices for climate resilience and productivity",
+      "descriptionHi": "जलवायु लचीलापन और उत्पादकता के लिए टिकाऊ खेती प्रथाओं को बढ़ावा देता है",
+      "descriptionMr": "हवामान बदलाच्या लवचिकतेसाठी आणि उत्पादकतेसाठी शाश्वत शेती पद्धतींना प्रोत्साहन",
+      "params": {
+        "state": "ALL",
+        "district": "ALL",
+        "crops": [
+          "ALL"
+        ],
+        "max_acres": 50,
+        "min_acres": 0
+      },
+      "benefit": "Support for water harvesting, organic inputs, climate resilient varieties",
+      "benefitHi": "जल संचयन, जैविक इनपुट, जलवायु प्रतिरोधी किस्मों के लिए सहायता",
+      "benefitMr": "जलसंधारण, सेंद्रिय निविष्ठा, हवामान-प्रतिरोधक वाणांसाठी सहाय्य",
+      "docs": [
+        "Land Records",
+        "Bank Account",
+        "Aadhaar Card"
+      ],
+      "docsHi": [
+        "भूमि रिकॉर्ड",
+        "बैंक खाता",
+        "आधार कार्ड"
+      ],
+      "docsMr": [
+        "जमीन नोंदी",
+        "बँक खाते",
+        "आधार कार्ड"
+      ],
+      "category": "Sustainability",
+      "categoryHi": "स्थिरता",
+      "categoryMr": "शाश्वतता",
+      "url": "https://nmsa.dac.gov.in/",
+      "eligibility": "All farmers committed to sustainable practices",
+      "eligibilityHi": "टिकाऊ प्रथाओं के प्रति प्रतिबद्ध सभी किसान",
+      "eligibilityMr": "शाश्वत पद्धतींशी बांधिलकी असलेले सर्व शेतकरी",
+      "deadline": "Ongoing",
+      "deadlineHi": "चालू",
+      "deadlineMr": "चालू",
+      "status": "active"
+    },
+    "s20": {
+      "id": "fpo",
+      "name": "Formation & Promotion of FPOs",
+      "nameHi": "FPO का गठन और संवर्धन",
+      "nameMr": "FPO चे गठन आणि संवर्धन",
+      "description": "Support for formation and strengthening of Farmer Producer Organizations",
+      "descriptionHi": "किसान उत्पादक संगठनों के गठन और सुदृढ़ीकरण के लिए सहायता",
+      "descriptionMr": "शेतकरी उत्पादक संघटनांच्या स्थापना आणि बळकटीकरणासाठी सहाय्य",
+      "params": {
+        "state": "ALL",
+        "district": "ALL",
+        "crops": [
+          "ALL"
+        ],
+        "max_acres": 100,
+        "min_acres": 0
+      },
+      "benefit": "₹33 lakh support per FPO over 5 years, equity grant up to ₹2,000/member",
+      "benefitHi": "5 वर्षों में प्रति FPO ₹33 लाख सहायता, ₹2,000/सदस्य तक इक्विटी अनुदान",
+      "benefitMr": "५ वर्षांत प्रति FPO ₹३३ लाख सहाय्य, ₹२,०००/सदस्य पर्यंत इक्विटी अनुदान",
+      "docs": [
+        "FPO Registration",
+        "Member List",
+        "Business Plan",
+        "Bank Account"
+      ],
+      "docsHi": [
+        "FPO पंजीकरण",
+        "सदस्य सूची",
+        "व्यापार योजना",
+        "बैंक खाता"
+      ],
+      "docsMr": [
+        "FPO नोंदणी",
+        "सदस्य यादी",
+        "व्यवसाय योजना",
+        "बँक खाते"
+      ],
+      "category": "Organization",
+      "categoryHi": "संगठन",
+      "categoryMr": "संघटना",
+      "url": "https://enam.gov.in/web/FPO/FPO-Home",
+      "eligibility": "Groups of 300+ farmers forming FPOs",
+      "eligibilityHi": "FPO बनाने वाले 300+ किसानों के समूह",
+      "eligibilityMr": "FPO तयार करणारे ३००+ शेतकऱ्यांचे गट",
+      "deadline": "Ongoing",
+      "deadlineHi": "चालू",
+      "deadlineMr": "चालू",
+      "status": "active"
+    },
+    "s21": {
+      "id": "gobar_dhan",
+      "name": "GOBAR-Dhan Scheme",
+      "nameHi": "गोबर-धन योजना",
+      "nameMr": "गोबर-धन योजना",
+      "description": "Converts cattle dung and solid waste into compost, biogas, and bio-CNG",
+      "descriptionHi": "पशु गोबर और ठोस कचरे को खाद, बायोगैस और बायो-CNG में परिवर्तित करता है",
+      "descriptionMr": "गुरांचे शेण आणि घनकचरा खत, बायोगॅस आणि बायो-CNG मध्ये रूपांतरित करते",
+      "params": {
+        "state": "ALL",
+        "district": "ALL",
+        "crops": [
+          "Livestock",
+          "Dairy"
+        ],
+        "max_acres": 0,
+        "min_acres": 0
+      },
+      "benefit": "Financial assistance for biogas plants, ₹2-3/kg for cattle dung collection",
+      "benefitHi": "बायोगैस संयंत्रों के लिए वित्तीय सहायता, गोबर संग्रह के लिए ₹2-3/किलो",
+      "benefitMr": "बायोगॅस संयंत्रांसाठी आर्थिक सहाय्य, शेण संकलनासाठी ₹२-३/किलो",
+      "docs": [
+        "Aadhaar Card",
+        "Land/Space Availability Proof",
+        "Bank Account"
+      ],
+      "docsHi": [
+        "आधार कार्ड",
+        "भूमि/स्थान उपलब्धता प्रमाण",
+        "बैंक खाता"
+      ],
+      "docsMr": [
+        "आधार कार्ड",
+        "जमीन/जागा उपलब्धता पुरावा",
+        "बँक खाते"
+      ],
+      "category": "Waste Management",
+      "categoryHi": "कचरा प्रबंधन",
+      "categoryMr": "कचरा व्यवस्थापन",
+      "url": "https://sbm.gov.in/gbdw20/Home.aspx",
+      "eligibility": "Dairy farmers, cattle owners, village clusters",
+      "eligibilityHi": "डेयरी किसान, मवेशी मालिक, ग्राम क्लस्टर",
+      "eligibilityMr": "दुग्ध शेतकरी, गुरे मालक, ग्राम समूह",
+      "deadline": "Ongoing",
+      "deadlineHi": "चालू",
+      "deadlineMr": "चालू",
+      "status": "active"
+    },
+    "s22": {
+      "id": "nfsm",
+      "name": "National Food Security Mission",
+      "nameHi": "राष्ट्रीय खाद्य सुरक्षा मिशन",
+      "nameMr": "राष्ट्रीय अन्नसुरक्षा अभियान",
+      "description": "Increases production of rice, wheat, pulses, coarse cereals and commercial crops",
+      "descriptionHi": "चावल, गेहूं, दालें, मोटे अनाज और वाणिज्यिक फसलों के उत्पादन में वृद्धि करता है",
+      "descriptionMr": "तांदूळ, गहू, कडधान्ये, भरड धान्ये आणि व्यापारी पिकांचे उत्पादन वाढवते",
+      "params": {
+        "state": "ALL",
+        "district": "ALL",
+        "crops": [
+          "Rice",
+          "Wheat",
+          "Pulses",
+          "Maize",
+          "Oilseeds"
+        ],
+        "max_acres": 50,
+        "min_acres": 0.5
+      },
+      "benefit": "Subsidy on certified seeds, farm machinery, micro irrigation, and inputs",
+      "benefitHi": "प्रमाणित बीज, कृषि मशीनरी, सूक्ष्म सिंचाई और इनपुट पर सब्सिडी",
+      "benefitMr": "प्रमाणित बियाणे, कृषी यंत्रसामग्री, सूक्ष्म सिंचन आणि निविष्ठांवर अनुदान",
+      "docs": [
+        "Land Records",
+        "Bank Account",
+        "Aadhaar Card"
+      ],
+      "docsHi": [
+        "भूमि रिकॉर्ड",
+        "बैंक खाता",
+        "आधार कार्ड"
+      ],
+      "docsMr": [
+        "जमीन नोंदी",
+        "बँक खाते",
+        "आधार कार्ड"
+      ],
+      "category": "Food Security",
+      "categoryHi": "खाद्य सुरक्षा",
+      "categoryMr": "अन्नसुरक्षा",
+      "url": "https://nfsm.gov.in/",
+      "eligibility": "Farmers growing targeted crops in identified districts",
+      "eligibilityHi": "पहचाने गए जिलों में लक्षित फसलें उगाने वाले किसान",
+      "eligibilityMr": "ओळखलेल्या जिल्ह्यांमध्ये लक्ष्यित पिके घेणारे शेतकरी",
+      "deadline": "Ongoing",
+      "deadlineHi": "चालू",
+      "deadlineMr": "चालू",
+      "status": "active"
+    },
+    "s23": {
+      "id": "pmfme",
+      "name": "PM Formalisation of Micro Food Enterprises",
+      "nameHi": "पीएम सूक्ष्म खाद्य उद्यम औपचारिकीकरण योजना",
+      "nameMr": "पीएम सूक्ष्म अन्न प्रक्रिया उद्योग औपचारिकीकरण योजना",
+      "description": "Supports micro food processing enterprises for upgradation and formalization",
+      "descriptionHi": "उन्नयन और औपचारिकीकरण के लिए सूक्ष्म खाद्य प्रसंस्करण उद्यमों का समर्थन करता है",
+      "descriptionMr": "सूक्ष्म अन्न प्रक्रिया उद्योगांच्या उन्नती आणि औपचारिकीकरणासाठी सहाय्य",
+      "params": {
+        "state": "ALL",
+        "district": "ALL",
+        "crops": [
+          "ALL"
+        ],
+        "max_acres": 100,
+        "min_acres": 0
+      },
+      "benefit": "Credit-linked subsidy of 35% (max ₹10 lakh) for plant upgradation",
+      "benefitHi": "संयंत्र उन्नयन के लिए 35% की क्रेडिट-लिंक्ड सब्सिडी (अधिकतम ₹10 लाख)",
+      "benefitMr": "संयंत्र उन्नतीसाठी ३५% क्रेडिट-लिंक्ड अनुदान (कमाल ₹१० लाख)",
+      "docs": [
+        "Business Registration",
+        "Project Report",
+        "Bank Account",
+        "Aadhaar Card"
+      ],
+      "docsHi": [
+        "व्यवसाय पंजीकरण",
+        "परियोजना रिपोर्ट",
+        "बैंक खाता",
+        "आधार कार्ड"
+      ],
+      "docsMr": [
+        "व्यवसाय नोंदणी",
+        "प्रकल्प अहवाल",
+        "बँक खाते",
+        "आधार कार्ड"
+      ],
+      "category": "Food Processing",
+      "categoryHi": "खाद्य प्रसंस्करण",
+      "categoryMr": "अन्न प्रक्रिया",
+      "url": "https://pmfme.mofpi.gov.in/",
+      "eligibility": "Existing micro food processing enterprises, new enterprises, FPOs, SHGs",
+      "eligibilityHi": "मौजूदा सूक्ष्म खाद्य प्रसंस्करण उद्यम, नए उद्यम, FPO, SHG",
+      "eligibilityMr": "विद्यमान सूक्ष्म अन्न प्रक्रिया उद्योग, नवीन उद्योग, FPO, बचत गट",
+      "deadline": "Ongoing",
+      "deadlineHi": "चालू",
+      "deadlineMr": "चालू",
+      "status": "active"
+    },
+    "s24": {
+      "id": "mgnrega",
+      "name": "MGNREGA (Agriculture Works)",
+      "nameHi": "मनरेगा (कृषि कार्य)",
+      "nameMr": "मनरेगा (कृषी कामे)",
+      "description": "Employment guarantee providing work for land development and water conservation",
+      "descriptionHi": "भूमि विकास और जल संरक्षण के लिए कार्य प्रदान करने वाली रोजगार गारंटी",
+      "descriptionMr": "भूमी विकास आणि जलसंधारणासाठी काम पुरवणारी रोजगार हमी योजना",
+      "params": {
+        "state": "ALL",
+        "district": "ALL",
+        "crops": [
+          "ALL"
+        ],
+        "max_acres": 10,
+        "min_acres": 0
+      },
+      "benefit": "100 days guaranteed employment, wage rate varies by state (₹200-300/day)",
+      "benefitHi": "100 दिन की गारंटीकृत रोजगार, मजदूरी दर राज्य के अनुसार (₹200-300/दिन)",
+      "benefitMr": "१०० दिवस हमी रोजगार, राज्यानुसार मजुरी दर (₹२००-३००/दिन)",
+      "docs": [
+        "Job Card",
+        "Aadhaar Card",
+        "Bank Account"
+      ],
+      "docsHi": [
+        "जॉब कार्ड",
+        "आधार कार्ड",
+        "बैंक खाता"
+      ],
+      "docsMr": [
+        "जॉब कार्ड",
+        "आधार कार्ड",
+        "बँक खाते"
+      ],
+      "category": "Employment",
+      "categoryHi": "रोजगार",
+      "categoryMr": "रोजगार",
+      "url": "https://nrega.nic.in/",
+      "eligibility": "Adult members of rural households willing to do unskilled manual work",
+      "eligibilityHi": "ग्रामीण परिवारों के वयस्क सदस्य जो अकुशल शारीरिक श्रम करने को तैयार हैं",
+      "eligibilityMr": "अकुशल शारीरिक काम करण्यास तयार ग्रामीण कुटुंबांचे प्रौढ सदस्य",
+      "deadline": "Ongoing",
+      "deadlineHi": "चालू",
+      "deadlineMr": "चालू",
+      "status": "active"
+    },
+    "s25": {
+      "id": "pradhan_mantri_annadata",
+      "name": "PM-AASHA (Annadata Aay Sanrakshan Abhiyan)",
+      "nameHi": "पीएम-आशा (अन्नदाता आय संरक्षण अभियान)",
+      "nameMr": "पीएम-आशा (अन्नदाता आय संरक्षण अभियान)",
+      "description": "Ensures MSP to farmers through Price Support Scheme and Price Deficiency Payment",
+      "descriptionHi": "मूल्य समर्थन योजना और मूल्य अंतर भुगतान के माध्यम से किसानों को MSP सुनिश्चित करता है",
+      "descriptionMr": "किंमत आधार योजना आणि किंमत फरक भरपाईद्वारे शेतकऱ्यांना MSP सुनिश्चित करते",
+      "params": {
+        "state": "ALL",
+        "district": "ALL",
+        "crops": [
+          "Pulses",
+          "Oilseeds",
+          "Cotton"
+        ],
+        "max_acres": 100,
+        "min_acres": 0
+      },
+      "benefit": "MSP guarantee for notified crops, direct payment for price difference",
+      "benefitHi": "अधिसूचित फसलों के लिए MSP गारंटी, मूल्य अंतर के लिए सीधा भुगतान",
+      "benefitMr": "अधिसूचित पिकांसाठी MSP हमी, किंमत फरकासाठी थेट भरपाई",
+      "docs": [
+        "Land Records",
+        "Bank Account",
+        "Aadhaar Card",
+        "Crop Registration"
+      ],
+      "docsHi": [
+        "भूमि रिकॉर्ड",
+        "बैंक खाता",
+        "आधार कार्ड",
+        "फसल पंजीकरण"
+      ],
+      "docsMr": [
+        "जमीन नोंदी",
+        "बँक खाते",
+        "आधार कार्ड",
+        "पीक नोंदणी"
+      ],
+      "category": "Price Support",
+      "categoryHi": "मूल्य समर्थन",
+      "categoryMr": "किंमत आधार",
+      "url": "https://farmer.gov.in/",
+      "eligibility": "Farmers growing notified crops registered on state portals",
+      "eligibilityHi": "राज्य पोर्टलों पर पंजीकृत अधिसूचित फसलें उगाने वाले किसान",
+      "eligibilityMr": "राज्य पोर्टलवर नोंदणीकृत अधिसूचित पिके घेणारे शेतकरी",
+      "deadline": "During procurement season",
+      "deadlineHi": "खरीद सीजन के दौरान",
+      "deadlineMr": "खरेदी हंगामात",
+      "status": "active"
     }
+  },
+  "categories": [
+    {
+      "id": "all",
+      "name": "All Schemes",
+      "nameHi": "सभी योजनाएं",
+      "icon": "apps",
+      "nameMr": "सर्व योजना"
+    },
+    {
+      "id": "income_support",
+      "name": "Income Support",
+      "nameHi": "आय सहायता",
+      "icon": "payments",
+      "nameMr": "उत्पन्न सहाय्य"
+    },
+    {
+      "id": "insurance",
+      "name": "Insurance",
+      "nameHi": "बीमा",
+      "icon": "security",
+      "nameMr": "विमा"
+    },
+    {
+      "id": "credit",
+      "name": "Credit",
+      "nameHi": "ऋण",
+      "icon": "credit_card",
+      "nameMr": "कर्ज"
+    },
+    {
+      "id": "energy",
+      "name": "Energy",
+      "nameHi": "ऊर्जा",
+      "icon": "solar_power",
+      "nameMr": "ऊर्जा"
+    },
+    {
+      "id": "irrigation",
+      "name": "Irrigation",
+      "nameHi": "सिंचाई",
+      "icon": "water_drop",
+      "nameMr": "सिंचन"
+    },
+    {
+      "id": "machinery",
+      "name": "Machinery",
+      "nameHi": "मशीनरी",
+      "icon": "agriculture",
+      "nameMr": "यंत्रसामग्री"
+    },
+    {
+      "id": "horticulture",
+      "name": "Horticulture",
+      "nameHi": "बागवानी",
+      "icon": "local_florist",
+      "nameMr": "फलोत्पादन"
+    },
+    {
+      "id": "organic",
+      "name": "Organic",
+      "nameHi": "जैविक",
+      "icon": "eco",
+      "nameMr": "सेंद्रिय"
+    },
+    {
+      "id": "market_access",
+      "name": "Market Access",
+      "nameHi": "बाजार पहुंच",
+      "icon": "storefront",
+      "nameMr": "बाजार प्रवेश"
+    },
+    {
+      "id": "pension",
+      "name": "Pension",
+      "nameHi": "पेंशन",
+      "icon": "elderly",
+      "nameMr": "पेन्शन"
+    },
+    {
+      "id": "technology",
+      "name": "Technology",
+      "nameHi": "प्रौद्योगिकी",
+      "icon": "smart_toy",
+      "nameMr": "तंत्रज्ञान"
+    }
+  ],
+  "metadata": {
+    "version": "2.0",
+    "lastUpdated": "2026-02-21",
+    "totalSchemes": 25,
+    "source": "Ministry of Agriculture & Farmers Welfare, Government of India"
   }
 }

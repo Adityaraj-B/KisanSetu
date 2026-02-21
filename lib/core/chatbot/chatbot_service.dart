@@ -49,6 +49,9 @@ class ChatbotService {
       case ChatIntent.languageSwitchEnglish:
         return ChatbotResponse.languageSwitchEnglish();
 
+      case ChatIntent.languageSwitchMarathi:
+        return ChatbotResponse.languageSwitchMarathi();
+
       case ChatIntent.unknown:
         return ChatbotResponse.unknown();
     }
@@ -81,6 +84,7 @@ class ChatbotService {
     return const ChatbotResponse(
       message: 'Namaste! 🙏 Welcome to KisanSetu Assistant.\n\nI can help you with:\n• Finding eligible government schemes\n• Information about crop insurance\n• General guidance\n\nHow can I assist you today?',
       messageHi: 'नमस्ते! 🙏 किसान सेतु सहायक में आपका स्वागत है।\n\nमैं आपकी इनमें मदद कर सकता हूं:\n• पात्र सरकारी योजनाएं खोजना\n• फसल बीमा की जानकारी\n• सामान्य मार्गदर्शन\n\nआज मैं आपकी कैसे सहायता कर सकता हूं?',
+      messageMr: 'नमस्कार! 🙏 किसान सेतु सहाय्यकामध्ये आपले स्वागत आहे.\n\nमी तुम्हाला यामध्ये मदत करू शकतो:\n• पात्र सरकारी योजना शोधणे\n• पीक विम्याची माहिती\n• सामान्य मार्गदर्शन\n\nआज मी तुमची कशी मदत करू?',
       type: ResponseType.text,
     );
   }
@@ -92,6 +96,13 @@ class ChatbotService {
         'मेरी योजनाएं दिखाओ',
         'बीमा के बारे में बताओ',
         'मदद',
+      ];
+    }
+    if (languageCode == 'mr') {
+      return [
+        'माझ्या योजना दाखवा',
+        'विम्याबद्दल सांगा',
+        'मदत',
       ];
     }
     return [

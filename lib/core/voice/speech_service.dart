@@ -44,7 +44,16 @@ class SpeechService {
   }
 
   void setLanguage(String languageCode) {
-    _currentLocaleId = languageCode == 'hi' ? 'hi_IN' : 'en_US';
+    switch (languageCode) {
+      case 'hi':
+        _currentLocaleId = 'hi_IN';
+        break;
+      case 'mr':
+        _currentLocaleId = 'mr_IN';
+        break;
+      default:
+        _currentLocaleId = 'en_US';
+    }
   }
 
   Future<void> startListening({

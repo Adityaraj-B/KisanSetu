@@ -176,14 +176,14 @@ class OnboardingProvider extends ChangeNotifier {
       debugPrint('OnboardingProvider: Loaded ${_districts.length} districts from API');
     } on PMFBYApiException catch (e) {
       debugPrint('OnboardingProvider: API error loading districts: ${e.message}');
-      // Use fallback data when API fails
-      _districts = FallbackData.getFallbackDistricts(_profile.selectedState!.stateId);
+      // Use fallback data from JSON when API fails
+      _districts = await FallbackData.getDistrictsFromJson(_profile.selectedState!.stateId);
       _districtsLoadingState = LoadingState.success;
       debugPrint('OnboardingProvider: Using fallback data - ${_districts.length} districts');
     } catch (e) {
       debugPrint('OnboardingProvider: Unknown error loading districts: $e');
-      // Use fallback data when API fails
-      _districts = FallbackData.getFallbackDistricts(_profile.selectedState!.stateId);
+      // Use fallback data from JSON when API fails
+      _districts = await FallbackData.getDistrictsFromJson(_profile.selectedState!.stateId);
       _districtsLoadingState = LoadingState.success;
       debugPrint('OnboardingProvider: Using fallback data - ${_districts.length} districts');
     }

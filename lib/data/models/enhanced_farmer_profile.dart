@@ -392,5 +392,23 @@ class SeasonHelper {
   static String getCurrentSeasonDisplay() {
     return '${getCurrentSeasonName()} ${getCurrentSeasonYear()}';
   }
-}
 
+  /// Get localized season name
+  static String getLocalizedSeasonName(String languageCode) {
+    final month = DateTime.now().month;
+    if (month >= 4 && month <= 9) {
+      if (languageCode == 'mr') return 'खरीप';
+      if (languageCode == 'hi') return 'खरीफ';
+      return 'Kharif';
+    } else {
+      if (languageCode == 'mr') return 'रब्बी';
+      if (languageCode == 'hi') return 'रबी';
+      return 'Rabi';
+    }
+  }
+
+  /// Get localized full season display string
+  static String getLocalizedSeasonDisplay(String languageCode) {
+    return '${getLocalizedSeasonName(languageCode)} ${getCurrentSeasonYear()}';
+  }
+}
